@@ -1,8 +1,13 @@
 import axios from "axios";
 
+const baseURL =
+  process.env.NODE_ENV === "production"
+    ? "" // gọi /api/... của Next.js
+    : process.env.NEXT_PUBLIC_API_URL; // localhost
+
 const API = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-  timeout: 15000
+  baseURL,
+  timeout: 15000,
 });
-console.log("API instance created with baseURL:", API.defaults.baseURL);
+
 export default API;
