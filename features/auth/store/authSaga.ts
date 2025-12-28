@@ -4,8 +4,7 @@ import { loginRequest, loginSuccess, loginFailure } from "./authSlice";
 import { AxiosError } from "axios";
 import { loginAPI } from "../services/authService";
 
-
-function* handleLogin(action: ReturnType<typeof loginRequest>):Generator {
+function* handleLogin(action: ReturnType<typeof loginRequest>): Generator {
   try {
     const { username, password } = action.payload;
     const response = yield call(loginAPI, { username, password });
