@@ -1,65 +1,215 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import React, { useState } from "react";
+import {
+  Smartphone,
+  Zap,
+  Shield,
+  Truck,
+  Star,
+  ChevronRight,
+  Menu,
+  X
+} from "lucide-react";
+import Image from "next/image";
+import Button from "@/components/ui/Button/Button";
+
+export default function PhoneStoreHomepage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const featuredPhones = [
+    {
+      id: 1,
+      name: "Galaxy Ultra X",
+      price: "25.990.000₫",
+      image:
+        "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600&h=800&fit=crop",
+      tag: "Mới nhất"
+    },
+    {
+      id: 2,
+      name: "iPhone Pro Max",
+      price: "32.990.000₫",
+      image:
+        "https://images.unsplash.com/photo-1592286927505-b0fb86d485fc?w=600&h=800&fit=crop",
+      tag: "Hot"
+    },
+    {
+      id: 3,
+      name: "Pixel Premium",
+      price: "19.990.000₫",
+      image:
+        "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=600&h=800&fit=crop",
+      tag: "Giảm giá"
+    }
+  ];
+
+  const features = [
+    { icon: Zap, title: "Hiệu năng cao", desc: "Chip xử lý mạnh mẽ" },
+    { icon: Shield, title: "Bảo hành 2 năm", desc: "Chính hãng 100%" },
+    { icon: Truck, title: "Miễn phí giao hàng", desc: "Toàn quốc" },
+    { icon: Star, title: "Ưu đãi lớn", desc: "Giảm đến 30%" }
+  ];
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="min-h-screen bg-slate-950 text-white">
+      {/* NAVBAR */}
+      <nav className="fixed top-0 inset-x-0 z-50 bg-slate-950/80 backdrop-blur border-b border-white/10">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2 font-bold text-lg">
+            <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center">
+              <Smartphone className="w-5 h-5" />
+            </div>
+            PhoneHub
+          </div>
+
+          <div className="hidden md:flex gap-8 text-sm text-slate-300">
+            <a className="hover:text-blue-400" href="#">
+              Trang chủ
+            </a>
+            <a className="hover:text-blue-400" href="#">
+              Sản phẩm
+            </a>
+            <a className="hover:text-blue-400" href="#">
+              Khuyến mãi
+            </a>
+            <a className="hover:text-blue-400" href="#">
+              Liên hệ
+            </a>
+          </div>
+
+          <button
+            className="md:hidden"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X /> : <Menu />}
+          </button>
+        </div>
+
+        {mobileMenuOpen &&
+          <div className="md:hidden border-t border-white/10 px-6 py-4 space-y-4 bg-slate-950">
+            <a className="block" href="#">
+              Trang chủ
+            </a>
+            <a className="block" href="#">
+              Sản phẩm
+            </a>
+            <a className="block" href="#">
+              Khuyến mãi
+            </a>
+            <a className="block" href="#">
+              Liên hệ
+            </a>
+          </div>}
+      </nav>
+
+      {/* HERO */}
+      <section className="pt-32 pb-24 text-center px-6">
+        <h1 className="text-4xl md:text-6xl font-bold mb-6">
+          Trải nghiệm công nghệ
+          <span className="block text-blue-400">đỉnh cao</span>
+        </h1>
+        <p className="text-slate-400 max-w-xl mx-auto mb-10">
+          Điện thoại chính hãng, bảo hành dài hạn, giá tốt nhất thị trường.
+        </p>
+        <div className="flex justify-center gap-4">
+          <button className="px-8 py-4 bg-blue-600 rounded-full font-semibold hover:bg-blue-500 transition">
+            Khám phá ngay
+          </button>
+          <button className="px-8 py-4 border border-white/20 rounded-full hover:bg-white/5 transition">
+            Xem ưu đãi
+          </button>
+        </div>
+      </section>
+
+      {/* PRODUCTS */}
+      <section className="max-w-6xl mx-auto px-6 pb-24 grid grid-cols-1 md:grid-cols-3 gap-6">
+        {featuredPhones.map(phone =>
+          <div
+            key={phone.id}
+            className="bg-slate-900 rounded-2xl p-5 border border-white/10 hover:border-blue-500/40 transition"
+          >
+            <div className="relative mb-4 overflow-hidden rounded-xl">
+              <span className="absolute top-3 left-3 bg-blue-600 text-xs px-3 py-1 rounded-full">
+                {phone.tag}
+              </span>
+              <Image
+                src={phone.image}
+                alt={phone.name}
+                className="w-full h-full object-cover transition group-hover:scale-105"
+                fill
+              />
+            </div>
+            <h3 className="font-semibold text-lg mb-2">
+              {phone.name}
+            </h3>
+            <div className="flex items-center justify-between">
+              <span className="text-blue-400 font-bold text-xl">
+                {phone.price}
+              </span>
+              <Button
+                loading={false}
+                fullWidth
+                variant="primary"
+                className="p-3 bg-blue-600 rounded-full hover:bg-blue-500 transition"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </Button>
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* FEATURES */}
+      <section className="bg-slate-900/40 py-24">
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-3xl font-bold text-center mb-12">
+            Tại sao chọn chúng tôi?
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {features.map((f, i) =>
+              <div
+                key={i}
+                className="bg-slate-900 p-6 rounded-2xl border border-white/10 hover:border-blue-500/40 transition"
+              >
+                <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center mb-4">
+                  <f.icon />
+                </div>
+                <h3 className="font-semibold mb-2">
+                  {f.title}
+                </h3>
+                <p className="text-slate-400 text-sm">
+                  {f.desc}
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-24 px-6">
+        <div className="max-w-3xl mx-auto bg-blue-600 rounded-3xl p-10 text-center">
+          <h2 className="text-3xl font-bold mb-4">Nhận mã giảm giá 15%</h2>
+          <p className="text-blue-100 mb-8">
+            Đăng ký để nhận ưu đãi độc quyền từ PhoneHub
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-39.5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <input
+              className="flex-1 px-5 py-3 rounded-full text-slate-900"
+              placeholder="Email của bạn"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid px-5 transition-colors hover:border-transparent hover:bg-black/4 dark:border-white/[.145] dark:hover:bg-[#1a1a1a]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <button className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-full hover:bg-slate-100 transition">
+              Đăng ký
+            </button>
+          </div>
         </div>
-      </main>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="border-t border-white/10 py-10 text-center text-slate-400">
+        © 2025 PhoneHub. All rights reserved.
+      </footer>
     </div>
   );
 }
