@@ -1,7 +1,7 @@
 // features/auth/store/authSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface User {
+export interface User {
   token: string;
   role: "ADMIN" | "CUSTOMER";
 }

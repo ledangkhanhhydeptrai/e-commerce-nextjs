@@ -1,17 +1,50 @@
 // features/auth/store/authSaga.ts
 import { call, put, takeLatest } from "redux-saga/effects";
-import { loginRequest, loginSuccess, loginFailure } from "./authSlice";
-import { AxiosError } from "axios";
+import { loginRequest, loginSuccess, loginFailure, User } from "./authSlice";
+import { AxiosError, AxiosResponse } from "axios";
 import { loginAPI } from "../services/authService";
 
-function* handleLogin(action: ReturnType<typeof loginRequest>): Generator {
+interface ApiResponse<T> {
+  status: number;
+  message: string;
+  data: T;
+}
+
+interface ApiErrorResponse {
+  status: number;
+  message: string;
+  data: null;
+}
+
+function* handleLogin(
+  action: ReturnType<typeof loginRequest>
+): Generator<unknown, void, AxiosResponse<ApiResponse<User>>> {
   try {
     const { username, password } = action.payload;
-    const response = yield call(loginAPI, { username, password });
-    yield put(loginSuccess(response.data));
+
+    const response = yield call(loginAPI, {
+      username,
+      password
+    });
+
+    // response.data là ApiResponse<User>
+    yield put(loginSuccess(response.data.data));
   } catch (error) {
-    const errors = error as AxiosError;
-    yield put(loginFailure(errors.message || "Login failed"));
+    let message = "Login failed";
+
+    if (error && (error as AxiosError).isAxiosError) {
+      const err = error as AxiosError<ApiErrorResponse>;
+
+      if (
+        err.response &&
+        err.response.data &&
+        typeof err.response.data.message === "string"
+      ) {
+        message = err.response.data.message;
+      }
+    }
+
+    yield put(loginFailure(message));
   }
 }
 
