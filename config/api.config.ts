@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
 const API = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   timeout: 15000
 });
 API.interceptors.request.use(
@@ -56,18 +56,18 @@ export async function fetchBaseResponse<T = unknown>(
       success: true
     };
   } catch (error) {
-  if (axios.isAxiosError(error)) {
-    const raw = error.response?.data;
+    if (axios.isAxiosError(error)) {
+      const raw = error.response?.data;
 
-    return {
-      status: raw?.status || error.response?.status || 400,
-      message: raw?.message || "Request failed",
-      data: raw?.data ?? null,
-      success: false
-    };
+      return {
+        status: raw?.status || error.response?.status || 400,
+        message: raw?.message || "Request failed",
+        data: raw?.data ?? null,
+        success: false
+      };
+    }
+
+    throw error; // chỉ throw khi crash thật
   }
-
-  throw error; // chỉ throw khi crash thật
-}
 }
 export default API;
