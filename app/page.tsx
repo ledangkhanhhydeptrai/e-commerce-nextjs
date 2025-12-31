@@ -1,22 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
-import {
-  Smartphone,
-  Zap,
-  Shield,
-  Truck,
-  Star,
-  ChevronRight,
-  Menu,
-  X
-} from "lucide-react";
+import React from "react";
+import { Zap, Shield, Truck, Star, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Button from "@/components/ui/Button/Button";
+import Header from "@/components/layouts/Header";
 
 export default function PhoneStoreHomepage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   const featuredPhones = [
     {
       id: 1,
@@ -54,54 +44,7 @@ export default function PhoneStoreHomepage() {
   return (
     <div className="min-h-screen bg-slate-950 text-white">
       {/* NAVBAR */}
-      <nav className="fixed top-0 inset-x-0 z-50 bg-slate-950/80 backdrop-blur border-b border-white/10">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2 font-bold text-lg">
-            <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center">
-              <Smartphone className="w-5 h-5" />
-            </div>
-            PhoneHub
-          </div>
-
-          <div className="hidden md:flex gap-8 text-sm text-slate-300">
-            <a className="hover:text-blue-400" href="#">
-              Trang chủ
-            </a>
-            <a className="hover:text-blue-400" href="#">
-              Sản phẩm
-            </a>
-            <a className="hover:text-blue-400" href="#">
-              Khuyến mãi
-            </a>
-            <a className="hover:text-blue-400" href="#">
-              Liên hệ
-            </a>
-          </div>
-
-          <button
-            className="md:hidden"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X /> : <Menu />}
-          </button>
-        </div>
-
-        {mobileMenuOpen &&
-          <div className="md:hidden border-t border-white/10 px-6 py-4 space-y-4 bg-slate-950">
-            <a className="block" href="#">
-              Trang chủ
-            </a>
-            <a className="block" href="#">
-              Sản phẩm
-            </a>
-            <a className="block" href="#">
-              Khuyến mãi
-            </a>
-            <a className="block" href="#">
-              Liên hệ
-            </a>
-          </div>}
-      </nav>
+      <Header />
 
       {/* HERO */}
       <section className="pt-32 pb-24 text-center px-6">

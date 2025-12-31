@@ -1,4 +1,5 @@
-import API from "@/config/api.config";
+import { fetchBaseResponse } from "@/config/api.config";
+
 
 export interface LoginPayload {
   username: string;
@@ -11,5 +12,11 @@ export interface LoginResponse {
 }
 
 export const loginAPI = (payload: LoginPayload) => {
-  return API.post<LoginResponse>("/api/auth/login", payload);
+  return fetchBaseResponse("/api/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    data: payload
+  });
 };

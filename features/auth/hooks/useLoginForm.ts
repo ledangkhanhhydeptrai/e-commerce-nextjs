@@ -6,14 +6,15 @@ export default function useLoginForm() {
   const [password, setPassword] = React.useState<string>("");
   const [formError, setFormError] = React.useState<string | null>("");
   const validate = () => {
-    if (username.trim()) {
+    if (!username.trim()) {
       setFormError("Username không được bỏ trống");
+      return false;
     }
     if (password.length < 6) {
       setFormError("Mật khẩu tối thiểu 6 ký tự");
       return false;
     }
-    setFormError("");
+    setFormError(null);
     return true;
   };
   return {

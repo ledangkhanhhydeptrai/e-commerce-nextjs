@@ -10,7 +10,9 @@ import { RootState } from "@/store/store";
 
 export default function LoginContainer() {
   const dispatch = useDispatch();
-  const { user, loading, error } = useSelector((state: RootState) => state.auth);
+  const { user, loading, error } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   useAuthRedirect(user !== null);
 

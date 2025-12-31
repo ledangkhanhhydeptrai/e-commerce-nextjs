@@ -4,13 +4,13 @@ import { loginRequest, loginSuccess, loginFailure, User } from "./authSlice";
 import { AxiosError, AxiosResponse } from "axios";
 import { loginAPI } from "../services/authService";
 
-interface ApiResponse<T> {
+export interface ApiResponse<T> {
   status: number;
   message: string;
   data: T;
 }
 
-interface ApiErrorResponse {
+export interface ApiErrorResponse {
   status: number;
   message: string;
   data: null;
@@ -26,7 +26,8 @@ function* handleLogin(
       username,
       password
     });
-
+    const { token } = response.data.data;
+    localStorage.setItem("jwt", token);
     // response.data là ApiResponse<User>
     yield put(loginSuccess(response.data.data));
   } catch (error) {
