@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 interface Props {
   onSubmit: (username: string, password: string) => void;
   loading: boolean;
-  error: string;
+  error: string | null;
 }
 
 export default function LoginForm({ onSubmit, loading, error }: Props) {
@@ -55,13 +55,12 @@ export default function LoginForm({ onSubmit, loading, error }: Props) {
           </div>
 
           {/* Error Alert */}
-          {error &&
+          {error && (
             <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3 animate-shake">
               <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-              <p className="text-red-700 text-sm">
-                {error}
-              </p>
-            </div>}
+              <p className="text-red-700 text-sm">{error}</p>
+            </div>
+          )}
 
           {/* Form */}
           <div className="space-y-5" onKeyPress={handleKeyPress}>
@@ -84,10 +83,12 @@ export default function LoginForm({ onSubmit, loading, error }: Props) {
                 <Input
                   type="text"
                   value={username}
-                  onChange={e => setUsername(e.target.value)}
-                  className={`w-full pl-12 pr-4 py-3.5 rounded-xl border-2 transition-all duration-200 focus:outline-none ${error
-                    ? "border-red-300 focus:border-red-500 bg-red-50/50"
-                    : "border-gray-200 focus:border-blue-500 bg-gray-50/50"} hover:border-gray-300 focus:bg-white`}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className={`w-full pl-12 pr-4 py-3.5 rounded-xl border-2 transition-all duration-200 focus:outline-none ${
+                    error
+                      ? "border-red-300 focus:border-red-500 bg-red-50/50"
+                      : "border-gray-200 focus:border-blue-500 bg-gray-50/50"
+                  } hover:border-gray-300 focus:bg-white`}
                   placeholder="Nhập tên đăng nhập"
                   disabled={loading}
                 />
@@ -113,10 +114,12 @@ export default function LoginForm({ onSubmit, loading, error }: Props) {
                 <Input
                   type="password"
                   value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  className={`w-full pl-12 pr-4 py-3.5 rounded-xl border-2 transition-all duration-200 focus:outline-none ${error
-                    ? "border-red-300 focus:border-red-500 bg-red-50/50"
-                    : "border-gray-200 focus:border-blue-500 bg-gray-50/50"} hover:border-gray-300 focus:bg-white`}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={`w-full pl-12 pr-4 py-3.5 rounded-xl border-2 transition-all duration-200 focus:outline-none ${
+                    error
+                      ? "border-red-300 focus:border-red-500 bg-red-50/50"
+                      : "border-gray-200 focus:border-blue-500 bg-gray-50/50"
+                  } hover:border-gray-300 focus:bg-white`}
                   placeholder="Nhập mật khẩu"
                   disabled={loading}
                 />
@@ -136,7 +139,7 @@ export default function LoginForm({ onSubmit, loading, error }: Props) {
                 <Input
                   type="checkbox"
                   checked={rememberMe}
-                  onChange={e => setRememberMe(e.target.checked)}
+                  onChange={(e) => setRememberMe(e.target.checked)}
                   className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 cursor-pointer"
                   disabled={loading}
                 />
