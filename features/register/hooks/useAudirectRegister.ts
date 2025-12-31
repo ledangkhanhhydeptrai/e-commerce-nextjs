@@ -13,6 +13,6 @@ export function useAuthRedirectRegister({
 }: UseRegisterRedirectProps) {
   const router = useRouter();
   useEffect(() => {
-    if (!loading && success) router.push("/login");
+    if (!loading && success) router.push("/auth/login");
   }, [loading, success, router]);
 }

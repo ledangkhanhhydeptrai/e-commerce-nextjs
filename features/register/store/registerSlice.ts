@@ -10,11 +10,13 @@ interface AuthState {
   loading: boolean;
   response: ApiResponse<null> | null;
   error: string | null;
+  success: boolean;  // <-- thêm đây
 }
 const initialState: AuthState = {
   loading: false,
   response: null,
-  error: null
+  error: null,
+  success:false,
 };
 const registerSlice = createSlice({
   name: "register",
@@ -23,10 +25,12 @@ const registerSlice = createSlice({
     registerRequest(state, action: PayloadAction<RegisterPayload>) {
       state.loading = true;
       state.error = null;
+      state.success = false;
     },
     registerSuccess(state, action: PayloadAction<ApiResponse<null>>) {
       state.loading = false;
       state.response = action.payload;
+      state.success = true;
     },
     registerFailure(state, action: PayloadAction<string>) {
       state.loading = false;
