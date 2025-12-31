@@ -3,12 +3,7 @@
 
 import React, { useState } from "react";
 import Button from "@/components/ui/Button/Button";
-
-interface Props {
-  onSubmit: (username: string, password: string) => void;
-  loading: boolean;
-  error: string | null;
-}
+import { Props } from "../LoginProps/LoginProps";
 
 export default function LoginForm({ onSubmit, loading, error }: Props) {
   const [username, setUsername] = useState("");
@@ -32,10 +27,11 @@ export default function LoginForm({ onSubmit, loading, error }: Props) {
           <p className="text-gray-500 mt-4">
             Welcome back! Please login to your account
           </p>
-          {error &&
+          {error && (
             <div className="mt-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
               {error}
-            </div>}
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="mt-8 space-y-5">
             <div>
               <label htmlFor="" className="text-sm font-medium text-gray-700">
@@ -43,12 +39,14 @@ export default function LoginForm({ onSubmit, loading, error }: Props) {
               </label>
               <input
                 type="text"
-                className={`mt-1 w-full rounded-lg border px-4 py-3 focus:outline-none ${error
-                  ? "border-red-400 focus:ring-red-400"
-                  : "focus:ring-blue-500"}`}
+                className={`mt-1 w-full rounded-lg border px-4 py-3 focus:outline-none ${
+                  error
+                    ? "border-red-400 focus:ring-red-400"
+                    : "focus:ring-blue-500"
+                }`}
                 placeholder="Nhập username"
                 value={username}
-                onChange={e => setUsername(e.target.value)}
+                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
             <div>
@@ -58,10 +56,12 @@ export default function LoginForm({ onSubmit, loading, error }: Props) {
               <input
                 type="password"
                 value={password}
-                onChange={e => setPassword(e.target.value)}
-                className={`mt-1 w-full rounded-lg border px-4 py-3 focus:outline-none ${error
-                  ? "border-red-400 focus:ring-red-400"
-                  : "focus:ring-blue-500"}`}
+                onChange={(e) => setPassword(e.target.value)}
+                className={`mt-1 w-full rounded-lg border px-4 py-3 focus:outline-none ${
+                  error
+                    ? "border-red-400 focus:ring-red-400"
+                    : "focus:ring-blue-500"
+                }`}
                 placeholder="Nhập mật khẩu"
               />
             </div>
