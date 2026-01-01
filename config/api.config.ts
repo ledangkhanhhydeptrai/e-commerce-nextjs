@@ -1,3 +1,4 @@
+import { getUsernameFromToken } from "@/features/auth/utils/JWTPayload";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
 const API = axios.create({
@@ -6,11 +7,19 @@ const API = axios.create({
 });
 API.interceptors.request.use(
   (config) => {
-    const token =
-      typeof window !== "undefined" ? localStorage.getItem("jwt") : null;
-    if (token) {
-      config.headers = config.headers || {};
-      config.headers["Authorization"] = `Bearer ${token}`;
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("jwt");
+
+      if (token) {
+        config.headers = config.headers || {};
+        config.headers.Authorization = `Bearer ${token}`;
+
+        // 🔥 decode username
+        const username = getUsernameFromToken(token);
+        if (username) {
+          config.headers["X-Username"] = username; // optional
+        }
+      }
     }
     return config;
   },
