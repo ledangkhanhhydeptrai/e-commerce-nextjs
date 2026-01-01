@@ -3,6 +3,7 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import { loginRequest, loginSuccess, loginFailure, User } from "./authSlice";
 import { AxiosError, AxiosResponse } from "axios";
 import { loginAPI } from "../services/authService";
+import { getUsernameFromToken } from "../utils/JWTPayload";
 
 export interface ApiResponse<T> {
   status: number;
@@ -28,6 +29,8 @@ function* handleLogin(
     });
     const { token } = response.data.data;
     localStorage.setItem("jwt", token);
+    const decodedUsername = getUsernameFromToken(token);
+    localStorage.setItem("username", decodedUsername ?? "");
     // response.data là ApiResponse<User>
     yield put(loginSuccess(response.data.data));
   } catch (error) {

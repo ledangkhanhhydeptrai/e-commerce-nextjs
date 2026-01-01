@@ -5,14 +5,35 @@ import Button from "../ui/Button/Button";
 import { useRouter } from "next/navigation";
 
 export default function Header() {
+  const [user, setUser] = React.useState<{ token: string | null; username: string } | null>(null);
   const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
+  const [dropdownOpen, setDropdownOpen] = React.useState<boolean>(false);
   const router = useRouter();
+  
   const handleNavigateLogin = () => {
     router.push("/auth/login");
   };
+  
   const handleNavigateRegister = () => {
     router.push("/auth/register");
   };
+  
+  const handleLogout = () => {
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("username");
+    setUser(null);
+    setDropdownOpen(false);
+    router.push("/");
+  };
+  
+  React.useEffect(() => {
+    const storeToken = localStorage.getItem("jwt");
+    const storedUsername = localStorage.getItem("username");
+    if (storeToken) {
+      setUser({ token: storeToken, username: storedUsername || "User" });
+    }
+  }, []);
+  
   return (
     <header className="bg-blue-600 shadow-md">
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
@@ -38,26 +59,74 @@ export default function Header() {
         </nav>
 
         {/* Desktop Buttons */}
-        <div className="hidden md:flex space-x-4">
-          <Button
-            fullWidth
-            variant="primary"
-            loading={false}
-            onClick={handleNavigateLogin}
-            className="bg-black text-blue-600 px-4 py-1 rounded hover:bg-gray-100 hover:text-blue-800 transition-colors"
-          >
-            Login
-          </Button>
-          <Button
-            fullWidth
-            variant="primary"
-            loading={false}
-            onClick={handleNavigateRegister}
-            className="bg-black text-blue-600 px-4 py-1 rounded hover:bg-gray-100 hover:text-blue-800 transition-colors"
-          >
-            Register
-          </Button>
-        </div>
+        {user ? (
+          <div className="hidden md:flex items-center space-x-4 relative">
+            <span className="text-white text-sm">Hello, {user.username}</span>
+            <div className="relative">
+              <button
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="flex items-center space-x-2 bg-yellow-300 text-blue-600 px-4 py-2 rounded hover:bg-yellow-400 transition-colors"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                </svg>
+                <span className="font-medium">{user.username}</span>
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
+              
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                  <Link
+                    href="/profile"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 transition-colors"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    <div className="flex items-center space-x-2">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                      </svg>
+                      <span>Profile</span>
+                    </div>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clipRule="evenodd" />
+                      </svg>
+                      <span>Đăng xuất</span>
+                    </div>
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="hidden md:flex space-x-4">
+            <Button
+              fullWidth
+              variant="primary"
+              loading={false}
+              onClick={handleNavigateLogin}
+              className="bg-black text-blue-600 px-4 py-1 rounded hover:bg-gray-100 hover:text-blue-800 transition-colors"
+            >
+              Login
+            </Button>
+            <Button
+              fullWidth
+              variant="primary"
+              loading={false}
+              onClick={handleNavigateRegister}
+              className="bg-black text-blue-600 px-4 py-1 rounded hover:bg-gray-100 hover:text-blue-800 transition-colors"
+            >
+              Register
+            </Button>
+          </div>
+        )}
 
         {/* Mobile menu Button */}
         <Button
@@ -84,43 +153,89 @@ export default function Header() {
       </div>
 
       {/* Mobile Menu */}
-      {menuOpen &&
+      {menuOpen && (
         <nav className="md:hidden bg-blue-500 text-white px-4 py-2 space-y-2">
           <Link
             href="/products"
             className="block text-yellow-200 hover:text-white transition-colors"
+            onClick={() => setMenuOpen(false)}
           >
             Products
           </Link>
           <Link
             href="/about"
             className="block text-yellow-200 hover:text-white transition-colors"
+            onClick={() => setMenuOpen(false)}
           >
             About
           </Link>
           <Link
             href="/contact"
             className="block text-yellow-200 hover:text-white transition-colors"
+            onClick={() => setMenuOpen(false)}
           >
             Contact
           </Link>
-          <Button
-            fullWidth
-            variant="primary"
-            loading={false}
-            className="w-full text-left bg-black text-blue-600 px-4 py-1 rounded hover:bg-gray-100 hover:text-blue-800 transition-colors"
+          <Link
+            href="/blog"
+            className="block text-yellow-200 hover:text-white transition-colors"
+            onClick={() => setMenuOpen(false)}
           >
-            Login
-          </Button>
-          <Button
-            fullWidth
-            variant="primary"
-            loading={false}
-            className="w-full text-left bg-black text-blue-600 px-4 py-1 rounded hover:bg-gray-100 hover:text-blue-800 transition-colors"
-          >
-            Register
-          </Button>
-        </nav>}
+            Blog
+          </Link>
+          
+          {user ? (
+            <>
+              <div className="pt-2 border-t border-blue-400">
+                <p className="text-yellow-200 text-sm mb-2">Hello, {user.username}</p>
+                <Link
+                  href="/profile"
+                  className="block bg-yellow-300 text-blue-600 px-4 py-2 rounded hover:bg-yellow-400 transition-colors mb-2"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Profile
+                </Link>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setMenuOpen(false);
+                  }}
+                  className="w-full text-left bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors"
+                >
+                  Đăng xuất
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <Button
+                fullWidth
+                variant="primary"
+                loading={false}
+                onClick={() => {
+                  handleNavigateLogin();
+                  setMenuOpen(false);
+                }}
+                className="w-full text-left bg-black text-blue-600 px-4 py-1 rounded hover:bg-gray-100 hover:text-blue-800 transition-colors"
+              >
+                Login
+              </Button>
+              <Button
+                fullWidth
+                variant="primary"
+                loading={false}
+                onClick={() => {
+                  handleNavigateRegister();
+                  setMenuOpen(false);
+                }}
+                className="w-full text-left bg-black text-blue-600 px-4 py-1 rounded hover:bg-gray-100 hover:text-blue-800 transition-colors"
+              >
+                Register
+              </Button>
+            </>
+          )}
+        </nav>
+      )}
     </header>
   );
 }
