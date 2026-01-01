@@ -61,7 +61,6 @@ export default function Header() {
         {/* Desktop Buttons */}
         {user ? (
           <div className="hidden md:flex items-center space-x-4 relative">
-            <span className="text-white text-sm">Hello, {user.username}</span>
             <div className="relative">
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
