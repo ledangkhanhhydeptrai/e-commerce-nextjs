@@ -1,6 +1,5 @@
-import Homepage from "@/features/home/components/Homepage";
-import React from "react";
+import HomeContainer from "@/features/home/home/HomeContainer";
 
 export default function Home() {
-  return <Homepage />;
+  return <HomeContainer />;
 }
