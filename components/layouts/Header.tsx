@@ -3,6 +3,8 @@ import Link from "next/link";
 import React from "react";
 import { useRouter } from "next/navigation";
 import Button from "../ui/Button/Button";
+import { useSelector } from "react-redux";
+import { selectCartQuantity } from "@/features/cart/cart/CartProps";
 
 export default function Header() {
   const [user, setUser] = React.useState<{
@@ -12,7 +14,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
   const [dropdownOpen, setDropdownOpen] = React.useState<boolean>(false);
   const router = useRouter();
-
+  const quantity = useSelector(selectCartQuantity);
   const handleNavigateLogin = () => {
     router.push("/auth/login");
   };
@@ -85,10 +87,11 @@ export default function Header() {
                     d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                   />
                 </svg>
-                {/* Badge số lượng */}
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  0
-                </span>
+                {quantity > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {quantity}
+                  </span>
+                )}
               </Button>
             </Link>
 
@@ -197,7 +200,7 @@ export default function Header() {
                   />
                 </svg>
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  0
+                  {quantity}
                 </span>
               </Button>
             </Link>

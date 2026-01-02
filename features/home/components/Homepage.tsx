@@ -63,7 +63,9 @@ export default function Homepage() {
       <div className="min-h-screen bg-linear-to-br from-red-50 to-white flex items-center justify-center p-10">
         <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md">
           <div className="text-6xl mb-4 text-center">⚠️</div>
-          <p className="text-red-500 text-center font-semibold">{error}</p>
+          <p className="text-red-500 text-center font-semibold">
+            {error}
+          </p>
         </div>
       </div>
     );
@@ -132,7 +134,7 @@ export default function Homepage() {
           </p>
         </div>
         <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
-          {brands.map((brand) => (
+          {brands.map(brand =>
             <Link
               key={brand.name}
               href={`/products?brand=${brand.name}`}
@@ -145,13 +147,15 @@ export default function Homepage() {
                 <div className="text-5xl mb-3 transform group-hover:scale-110 transition-transform">
                   {brand.icon}
                 </div>
-                <p className="font-bold text-gray-800 mb-1">{brand.name}</p>
+                <p className="font-bold text-gray-800 mb-1">
+                  {brand.name}
+                </p>
                 <p className="text-sm text-gray-500 font-medium">
                   {brand.count} sản phẩm
                 </p>
               </div>
             </Link>
-          ))}
+          )}
         </div>
       </section>
 
@@ -176,7 +180,7 @@ export default function Homepage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featuredPhones.map((phone) => (
+          {featuredPhones.map(phone =>
             <div
               key={phone.id}
               className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border-2 border-gray-100"
@@ -193,19 +197,17 @@ export default function Homepage() {
                 {/* BADGE */}
                 <span
                   className={`absolute top-4 left-4 px-4 py-2 rounded-full text-xs font-bold text-white shadow-lg backdrop-blur-sm
-                    ${
-                      phone.stockStatus === "IN_STOCK"
-                        ? "bg-green-500"
-                        : phone.stockStatus === "LOW_STOCK"
+                    ${phone.stockStatus === "IN_STOCK"
+                      ? "bg-green-500"
+                      : phone.stockStatus === "LOW_STOCK"
                         ? "bg-yellow-500"
-                        : "bg-gray-500"
-                    }`}
+                        : "bg-gray-500"}`}
                 >
                   {phone.stockStatus === "IN_STOCK"
                     ? "✓ Còn hàng"
                     : phone.stockStatus === "LOW_STOCK"
-                    ? "⚡ Sắp hết"
-                    : "✕ Hết hàng"}
+                      ? "⚡ Sắp hết"
+                      : "✕ Hết hàng"}
                 </span>
 
                 <button className="absolute top-4 right-4 bg-white rounded-full p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 transform">
@@ -239,11 +241,9 @@ export default function Homepage() {
                 <button
                   disabled={phone.stockStatus === "OUT_OF_STOCK"}
                   className={`w-full py-3 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 shadow-md
-                    ${
-                      phone.stockStatus === "OUT_OF_STOCK"
-                        ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                        : "bg-linear-to-r from-blue-600 to-purple-600 text-white hover:shadow-xl"
-                    }`}
+                    ${phone.stockStatus === "OUT_OF_STOCK"
+                      ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                      : "bg-linear-to-r from-blue-600 to-purple-600 text-white hover:shadow-xl"}`}
                 >
                   {phone.stockStatus === "OUT_OF_STOCK"
                     ? "Hết hàng"
@@ -251,7 +251,7 @@ export default function Homepage() {
                 </button>
               </div>
             </div>
-          ))}
+          )}
         </div>
 
         <div className="text-center mt-10 md:hidden">
@@ -280,16 +280,22 @@ export default function Homepage() {
             },
             { icon: "🔄", title: "Đổi trả dễ dàng", desc: "Trong vòng 7 ngày" },
             { icon: "💳", title: "Thanh toán", desc: "Đa dạng hình thức" }
-          ].map((feature, i) => (
+          ].map((feature, i) =>
             <div
               key={i}
               className="bg-white rounded-2xl p-6 text-center hover:shadow-xl transition-all transform hover:-translate-y-1 border-2 border-gray-100"
             >
-              <div className="text-5xl mb-3">{feature.icon}</div>
-              <h4 className="font-bold text-gray-800 mb-2">{feature.title}</h4>
-              <p className="text-gray-600 text-sm">{feature.desc}</p>
+              <div className="text-5xl mb-3">
+                {feature.icon}
+              </div>
+              <h4 className="font-bold text-gray-800 mb-2">
+                {feature.title}
+              </h4>
+              <p className="text-gray-600 text-sm">
+                {feature.desc}
+              </p>
             </div>
-          ))}
+          )}
         </div>
       </section>
 
