@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CartProps } from "../cart/CartProps";
 
-interface CartState {
+export interface CartState {
   cart: CartProps | null;
   loading: boolean;
   error: string | null;
@@ -29,5 +29,6 @@ const CartSlice = createSlice({
     }
   }
 });
-export const { getCartRequest, getCartSuccess, getCartFailure } = CartSlice.actions;
+export const { getCartRequest, getCartSuccess, getCartFailure } =
+  CartSlice.actions;
 export default CartSlice.reducer;

@@ -8,7 +8,11 @@ import { CartProps } from "../cart/CartProps";
 function* handleGetCart(): SagaIterator {
   try {
     const response: CartProps | null = yield call(CartAPI);
-    yield put(getCartSuccess(response as CartProps));
+    if (response) {
+      yield put(getCartSuccess(response));
+    } else {
+      yield put(getCartFailure("Cart is empty"));
+    }
   } catch (error) {
     const err = error as AxiosError;
     yield put(getCartFailure(err.message || "Get Cart failed"));

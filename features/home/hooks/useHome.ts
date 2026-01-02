@@ -18,7 +18,7 @@ export function useHome() {
   }, [dispatch]);
 
   // ⭐ lấy 4 sản phẩm đầu làm featured
-  const featuredPhones = products.slice(0,4)
+  const featuredPhones = products.slice(0, 4);
 
   return {
     featuredPhones,
