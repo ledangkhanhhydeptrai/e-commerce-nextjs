@@ -31,6 +31,6 @@ const homeSlice = createSlice({
 });
 export const { getProductRequest, getProductSuccess, getProductsFailure } =
   homeSlice.actions;
-  console.log("getProductRequest:", getProductRequest);
+console.log("getProductRequest:", getProductRequest);
 
 export default homeSlice.reducer;

@@ -155,43 +155,6 @@ export default function Homepage() {
         </div>
       </section>
 
-      {/* Flash Sale Banner */}
-      <section className="max-w-7xl mx-auto px-4 py-8">
-        <div className="relative bg-linear-to-r from-red-500 via-pink-500 to-purple-500 rounded-3xl p-8 md:p-10 text-white overflow-hidden shadow-2xl">
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIgZmlsbD0id2hpdGUiIGZpbGwtb3BhY2l0eT0iMC4xIi8+PC9zdmc+')] opacity-50" />
-
-          <div className="relative flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-6 md:mb-0">
-              <div className="inline-block bg-yellow-400 text-red-600 px-4 py-2 rounded-full text-sm font-black mb-3 animate-pulse">
-                HOT DEAL 🔥
-              </div>
-              <h3 className="text-4xl md:text-5xl font-black mb-3 drop-shadow-lg">
-                ⚡ Flash Sale Hôm Nay
-              </h3>
-              <p className="text-xl md:text-2xl font-semibold text-yellow-100">
-                Giảm đến 50% - Số lượng có hạn!
-              </p>
-            </div>
-            <div className="flex items-center space-x-3">
-              <div className="text-center bg-white bg-opacity-20 backdrop-blur-md rounded-2xl p-4 min-w-20 shadow-lg">
-                <div className="text-4xl font-black">02</div>
-                <div className="text-sm font-semibold">Giờ</div>
-              </div>
-              <div className="text-3xl font-black">:</div>
-              <div className="text-center bg-white bg-opacity-20 backdrop-blur-md rounded-2xl p-4 min-w-20 shadow-lg">
-                <div className="text-4xl font-black">35</div>
-                <div className="text-sm font-semibold">Phút</div>
-              </div>
-              <div className="text-3xl font-black">:</div>
-              <div className="text-center bg-white bg-opacity-20 backdrop-blur-md rounded-2xl p-4 min-w-20 shadow-lg">
-                <div className="text-4xl font-black">48</div>
-                <div className="text-sm font-semibold">Giây</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Featured Products */}
       <section className="max-w-7xl mx-auto px-4 py-16">
         <div className="flex justify-between items-center mb-10">
@@ -301,45 +264,6 @@ export default function Homepage() {
         </div>
       </section>
 
-      {/* Promotional Banners */}
-      <section className="max-w-7xl mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="group relative bg-linear-to-br from-purple-600 via-blue-600 to-blue-700 rounded-3xl p-10 text-white overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1">
-            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity" />
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-32 -mt-32" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white opacity-5 rounded-full -ml-24 -mb-24" />
-
-            <div className="relative z-10">
-              <div className="text-6xl mb-4">📱</div>
-              <h3 className="text-4xl font-black mb-3">iPhone 15 Series</h3>
-              <p className="text-xl mb-6 text-blue-100">
-                Titanium. Siêu bền. Siêu nhẹ.
-              </p>
-              <button className="bg-white text-purple-600 px-8 py-3 rounded-xl font-bold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">
-                Khám phá ngay →
-              </button>
-            </div>
-          </div>
-
-          <div className="group relative bg-linear-to-br from-green-500 via-teal-500 to-emerald-600 rounded-3xl p-10 text-white overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1">
-            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity" />
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-32 -mt-32" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white opacity-5 rounded-full -ml-24 -mb-24" />
-
-            <div className="relative z-10">
-              <div className="text-6xl mb-4">♻️</div>
-              <h3 className="text-4xl font-black mb-3">Trade-in cũ</h3>
-              <p className="text-xl mb-6 text-green-100">
-                Thu cũ đổi mới - Lên đời dễ dàng
-              </p>
-              <button className="bg-white text-green-600 px-8 py-3 rounded-xl font-bold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">
-                Tìm hiểu thêm →
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Features Section */}
       <section className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-4 gap-6">
@@ -369,35 +293,6 @@ export default function Homepage() {
         </div>
       </section>
 
-      {/* Newsletter */}
-      <section className="relative bg-linear-to-r from-blue-600 via-purple-600 to-pink-600 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIgZmlsbD0id2hpdGUiIGZpbGwtb3BhY2l0eT0iMC4xIi8+PC9zdmc+')] opacity-30" />
-
-        <div className="relative max-w-7xl mx-auto px-4 py-20">
-          <div className="text-center max-w-3xl mx-auto">
-            <div className="text-6xl mb-6">📧</div>
-            <h3 className="text-4xl md:text-5xl font-black mb-4 text-white drop-shadow-lg">
-              Đăng Ký Nhận Ưu Đãi
-            </h3>
-            <p className="text-xl mb-8 text-blue-100">
-              Nhận thông tin sản phẩm mới và ưu đãi độc quyền qua email
-            </p>
-            <div className="flex flex-col md:flex-row gap-4 max-w-2xl mx-auto">
-              <input
-                type="email"
-                placeholder="Nhập email của bạn..."
-                className="flex-1 px-6 py-4 rounded-xl text-gray-800 focus:outline-none focus:ring-4 focus:ring-yellow-400 shadow-xl text-lg"
-              />
-              <button className="bg-yellow-400 text-blue-900 px-10 py-4 rounded-xl font-black text-lg hover:bg-yellow-300 transition-all transform hover:scale-105 shadow-xl">
-                Đăng ký ngay 🎁
-              </button>
-            </div>
-            <p className="text-blue-100 text-sm mt-4">
-              ✓ Không spam • ✓ Hủy đăng ký bất cứ lúc nào
-            </p>
-          </div>
-        </div>
-      </section>
       <Footer />
     </div>
   );
