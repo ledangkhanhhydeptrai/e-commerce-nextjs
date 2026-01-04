@@ -6,6 +6,13 @@ export interface CartState {
   loading: boolean;
   error: string | null;
 }
+export interface DeleteCartPayload {
+  id: string;
+}
+interface UpdateQuantityPayload {
+  cartItemId: string;
+  quantity: number; // quantity mới
+}
 const initialState: CartState = {
   cart: null,
   loading: false,
@@ -19,16 +26,37 @@ const CartSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    getCartSuccess(state, action: PayloadAction<CartProps>) {
+    getCartSuccess(state, action: PayloadAction<CartProps | null>) {
       state.loading = false;
       state.cart = action.payload;
     },
     getCartFailure(state, action: PayloadAction<string>) {
       state.loading = false;
       state.error = action.payload;
+    },
+    updateQuantity(state, action: PayloadAction<UpdateQuantityPayload>) {
+      if (!state.cart) return;
+      const { cartItemId, quantity } = action.payload;
+
+      state.loading = true;
+      state.error = null;
+      const item = state.cart.items.find((i) => i.cartItemId === cartItemId);
+
+      if (item) {
+        item.quantity = quantity;
+      }
+    },
+    deleteQuantity(state, _action: PayloadAction<DeleteCartPayload>) {
+      state.loading = true;
+      state.error = null;
     }
   }
 });
-export const { getCartRequest, getCartSuccess, getCartFailure } =
-  CartSlice.actions;
+export const {
+  getCartRequest,
+  getCartSuccess,
+  getCartFailure,
+  updateQuantity,
+  deleteQuantity
+} = CartSlice.actions;
 export default CartSlice.reducer;
