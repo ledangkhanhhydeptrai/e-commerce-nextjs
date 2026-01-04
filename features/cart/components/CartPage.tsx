@@ -17,11 +17,13 @@ import Image from "next/image";
 import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
 import { useRouter } from "next/navigation";
+import useOrder from "@/features/order/hooks/useOrder";
 
 const CartPage: React.FC = () => {
   const { cart, loading, error, changeQuantity, deleteItem } = useCart();
+  console.log("Cart:",cart);
   const router = useRouter();
-
+  const { handleCheckout } = useOrder();
   if (loading) {
     return (
       <>
@@ -404,7 +406,10 @@ const CartPage: React.FC = () => {
                 </div>
               </div>
 
-              <button className="w-full bg-linear-to-r from-cyan-600 via-cyan-500 to-teal-600 text-white py-6 rounded-2xl font-black text-xl hover:from-cyan-700 hover:to-teal-700 transition-all shadow-2xl hover:shadow-3xl transform hover:scale-105 active:scale-95 mb-5 relative overflow-hidden group">
+              <button
+                onClick={handleCheckout}
+                className="w-full bg-linear-to-r from-cyan-600 via-cyan-500 to-teal-600 text-white py-6 rounded-2xl font-black text-xl hover:from-cyan-700 hover:to-teal-700 transition-all shadow-2xl hover:shadow-3xl transform hover:scale-105 active:scale-95 mb-5 relative overflow-hidden group"
+              >
                 <span className="relative z-10 flex items-center justify-center gap-3">
                   <ShieldCheck className="w-6 h-6" />
                   Thanh toán ngay
