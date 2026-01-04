@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import React from "react";
 import {
+  addCart,
   deleteQuantity,
   getCartRequest,
   updateQuantity
@@ -26,9 +27,22 @@ export function useCart() {
     },
     [dispatch]
   );
-
+  const addToCart = React.useCallback(
+    (productId: string, quantity: number) => {
+      dispatch(addCart({ productId, quantity }));
+    },
+    [dispatch]
+  );
   React.useEffect(() => {
     dispatch(getCartRequest()); // gọi 1 lần khi Header mount
   }, [dispatch]);
-  return { cart, loading, error, loadCart, changeQuantity, deleteItem };
+  return {
+    cart,
+    loading,
+    error,
+    loadCart,
+    changeQuantity,
+    deleteItem,
+    addToCart
+  };
 }
