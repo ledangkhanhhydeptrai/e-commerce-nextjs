@@ -1,6 +1,7 @@
 import { RootState } from "@/store/store";
 
 export interface ItemsProps {
+  cartItemId: string;
   productId: string;
   productName: string;
   price: number;
