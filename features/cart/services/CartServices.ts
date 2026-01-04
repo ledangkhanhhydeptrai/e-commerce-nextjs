@@ -31,3 +31,19 @@ export const deleteCartItemAPI = async (id: string): Promise<void> => {
     headers: JSON_HEADERS
   });
 };
+export const addCartItemAPI = async ({
+  productId,
+  quantity
+}: {
+  productId: string;
+  quantity: number;
+}) => {
+  const response = await fetchBaseResponse("/api/cart/add", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    data: { productId, quantity }
+  });
+  return response.data;
+};

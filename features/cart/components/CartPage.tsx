@@ -149,7 +149,7 @@ const CartPage: React.FC = () => {
 
       <Header />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10">
+      <div className="">
         {/* Header Section */}
         <div className="mb-10 animate-fade-in">
           <button
@@ -197,12 +197,12 @@ const CartPage: React.FC = () => {
           <div className="lg:col-span-2 space-y-6">
             {cart.items.map((item) => (
               <div
-                key={item.productId}
+                key={item.cartItemId}
                 className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-xl overflow-hidden border border-cyan-100 hover:shadow-2xl hover:border-cyan-200 transition-all duration-300 group animate-slide-in relative"
               >
                 {/* Delete button */}
                 <button
-                  onClick={() => deleteItem(item.cartItemId)}
+                  onClick={() => deleteItem(cart.id)}
                   className="absolute top-5 right-5 z-20 w-11 h-11 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-red-50 transition-all hover:scale-110 group/trash border border-gray-200"
                   aria-label="Xóa sản phẩm"
                 >

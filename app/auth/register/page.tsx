@@ -1,9 +1,5 @@
 import RegisterContainer from "@/features/register/registers/RegisterContainer";
 
 export default function Register() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <RegisterContainer />
-    </div>
-  );
+  return <RegisterContainer />;
 }
