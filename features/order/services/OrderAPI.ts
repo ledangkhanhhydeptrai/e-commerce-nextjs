@@ -1,5 +1,5 @@
 import { fetchBaseResponse } from "@/config/api.config";
-import { OrderProps } from "../order/OrderProps";
+import { OrderProps } from "../orderProps/OrderProps";
 export interface GetOrderResponse {
   status: number;
   message: string;

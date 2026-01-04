@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { OrderProps } from "../order/OrderProps";
+import { OrderProps } from "../orderProps/OrderProps";
 
 export interface OrderState {
   order: OrderProps | null;

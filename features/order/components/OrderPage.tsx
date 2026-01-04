@@ -1,28 +1,40 @@
 import React from "react";
-import { Package, Clock, CheckCircle, XCircle, Calendar, RefreshCw, ShoppingBag, CreditCard } from "lucide-react";
+import {
+  Package,
+  Clock,
+  CheckCircle,
+  XCircle,
+  Calendar,
+  RefreshCw,
+  ShoppingBag,
+  CreditCard
+} from "lucide-react";
 import useOrder from "../hooks/useOrder";
 import { OrderEnum } from "../OrderStatus/OrderStatus";
 import Image from "next/image";
 import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
-import { OrderItemProps } from "../order/OrderProps";
+import { OrderItemProps } from "../orderProps/OrderProps";
 
 const StatusBadge = ({ status }: { status: OrderEnum }) => {
   const statusConfig = {
     PENDING: {
-      color: "bg-linear-to-r from-yellow-400 to-orange-400 text-white shadow-lg shadow-yellow-200",
+      color:
+        "bg-linear-to-r from-yellow-400 to-orange-400 text-white shadow-lg shadow-yellow-200",
       icon: Clock,
       text: "Đang xử lý",
       dotColor: "bg-yellow-500"
     },
     COMPLETED: {
-      color: "bg-linear-to-r from-green-400 to-emerald-500 text-white shadow-lg shadow-green-200",
+      color:
+        "bg-linear-to-r from-green-400 to-emerald-500 text-white shadow-lg shadow-green-200",
       icon: CheckCircle,
       text: "Hoàn thành",
       dotColor: "bg-green-500"
     },
     CANCELLED: {
-      color: "bg-linear-to-r from-red-400 to-pink-500 text-white shadow-lg shadow-red-200",
+      color:
+        "bg-linear-to-r from-red-400 to-pink-500 text-white shadow-lg shadow-red-200",
       icon: XCircle,
       text: "Đã hủy",
       dotColor: "bg-red-500"
@@ -33,8 +45,12 @@ const StatusBadge = ({ status }: { status: OrderEnum }) => {
 
   return (
     <div className="relative">
-      <div className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold ${config.color} backdrop-blur-sm`}>
-        <span className={`w-2 h-2 ${config.dotColor} rounded-full animate-pulse`}></span>
+      <div
+        className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold ${config.color} backdrop-blur-sm`}
+      >
+        <span
+          className={`w-2 h-2 ${config.dotColor} rounded-full animate-pulse`}
+        />
         <Icon size={18} strokeWidth={2.5} />
         {config.text}
       </div>
@@ -43,7 +59,9 @@ const StatusBadge = ({ status }: { status: OrderEnum }) => {
 };
 
 const formatPrice = (price: number) =>
-  new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(price);
+  new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(
+    price
+  );
 
 const formatDate = (dateString: string) =>
   new Date(dateString).toLocaleDateString("vi-VN", {
@@ -91,8 +109,12 @@ export default function OrderPage() {
       <div className="min-h-screen flex items-center justify-center p-4 bg-linear-to-br from-gray-50 to-gray-100">
         <div className="bg-white p-12 rounded-3xl shadow-xl text-center border border-gray-200">
           <Package className="w-24 h-24 text-gray-300 mx-auto mb-6" />
-          <h3 className="text-2xl font-bold mb-3 text-gray-800">Chưa có đơn hàng</h3>
-          <p className="text-gray-500 text-lg">Các đơn hàng của bạn sẽ hiển thị ở đây</p>
+          <h3 className="text-2xl font-bold mb-3 text-gray-800">
+            Chưa có đơn hàng
+          </h3>
+          <p className="text-gray-500 text-lg">
+            Các đơn hàng của bạn sẽ hiển thị ở đây
+          </p>
         </div>
       </div>
     );
@@ -101,7 +123,7 @@ export default function OrderPage() {
   return (
     <div className="min-h-screen bg-linear-to-br from-indigo-50 via-purple-50 to-pink-50">
       <Header />
-      
+
       <div className="mt-10">
         {/* Page Header */}
         <div className="mb-10">
@@ -113,7 +135,9 @@ export default function OrderPage() {
               <h1 className="text-5xl font-black text-transparent bg-clip-text bg-linear-to-r from-indigo-600 via-purple-600 to-pink-600">
                 Đơn hàng của tôi
               </h1>
-              <p className="text-gray-600 text-lg mt-1">Chi tiết đơn hàng vừa tạo</p>
+              <p className="text-gray-600 text-lg mt-1">
+                Chi tiết đơn hàng vừa tạo
+              </p>
             </div>
           </div>
         </div>
@@ -122,9 +146,9 @@ export default function OrderPage() {
         <div className="bg-white overflow-hidden hover:shadow-3xl transition-all duration-500">
           {/* Header with Gradient */}
           <div className="relative bg-linear-to-r from-indigo-600 via-purple-600 to-pink-600 p-8 text-white overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32"></div>
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full -ml-24 -mb-24"></div>
-            
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full -ml-24 -mb-24" />
+
             <div className="relative flex flex-wrap justify-between items-center gap-4">
               <div>
                 <p className="text-white/80 text-sm font-medium mb-2 flex items-center gap-2">
@@ -145,9 +169,9 @@ export default function OrderPage() {
               <Package className="w-5 h-5 text-indigo-600" />
               Sản phẩm trong đơn hàng
             </h3>
-            
+
             <div className="space-y-4">
-              {orderData.items.map((item: OrderItemProps) => (
+              {orderData.items.map((item: OrderItemProps) =>
                 <div
                   key={item.productId}
                   className="group relative bg-linear-to-br from-gray-50 to-gray-100 rounded-2xl p-5 hover:from-indigo-50 hover:to-purple-50 transition-all duration-300 border-2 border-transparent hover:border-indigo-200"
@@ -165,7 +189,7 @@ export default function OrderPage() {
                         {item.quantity}
                       </div>
                     </div>
-                    
+
                     <div className="flex-1 flex flex-col justify-center">
                       <p className="text-xs text-gray-500 mb-2 font-mono">
                         ID: {item.productId.slice(0, 8)}...
@@ -182,7 +206,7 @@ export default function OrderPage() {
                     </div>
                   </div>
                 </div>
-              ))}
+              )}
             </div>
           </div>
 
@@ -198,7 +222,7 @@ export default function OrderPage() {
                   {formatDate(orderData.createdAt)}
                 </span>
               </div>
-              
+
               <div className="flex justify-between items-center text-base bg-white rounded-xl p-4 shadow-sm">
                 <span className="text-gray-600 flex items-center gap-2">
                   <Clock size={18} className="text-purple-600" />
@@ -208,43 +232,45 @@ export default function OrderPage() {
                   {formatDate(orderData.updatedAt)}
                 </span>
               </div>
-              
+
               <div className="flex justify-between items-center pt-4 border-t-2 border-gray-300">
-                <span className="text-2xl font-bold text-gray-800">TỔNG CỘNG:</span>
+                <span className="text-2xl font-bold text-gray-800">
+                  TỔNG CỘNG:
+                </span>
                 <span className="text-4xl font-black text-transparent bg-clip-text bg-linear-to-r from-indigo-600 via-purple-600 to-pink-600">
                   {formatPrice(orderData.totalPrice)}
                 </span>
               </div>
 
               {/* Payment Button */}
-              {orderData.status === "PENDING" && (
+              {orderData.status === "PENDING" &&
                 <button className="w-full mt-6 bg-linear-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-bold py-5 px-8 rounded-2xl hover:shadow-2xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3 group">
-                  <CreditCard size={24} className="group-hover:rotate-12 transition-transform duration-300" />
+                  <CreditCard
+                    size={24}
+                    className="group-hover:rotate-12 transition-transform duration-300"
+                  />
                   <span className="text-xl">Thanh toán ngay</span>
                   <div className="ml-2 bg-white/20 px-3 py-1 rounded-full text-sm font-semibold backdrop-blur-sm">
                     {formatPrice(orderData.totalPrice)}
                   </div>
-                </button>
-              )}
+                </button>}
 
-              {orderData.status === "COMPLETED" && (
+              {orderData.status === "COMPLETED" &&
                 <div className="w-full mt-6 bg-linear-to-r from-green-500 to-emerald-600 text-white font-bold py-5 px-8 rounded-2xl flex items-center justify-center gap-3 shadow-lg">
                   <CheckCircle size={24} />
                   <span className="text-xl">Đã thanh toán thành công</span>
-                </div>
-              )}
+                </div>}
 
-              {orderData.status === "CANCELLED" && (
+              {orderData.status === "CANCELLED" &&
                 <div className="w-full mt-6 bg-linear-to-r from-gray-400 to-gray-500 text-white font-bold py-5 px-8 rounded-2xl flex items-center justify-center gap-3 shadow-lg opacity-75">
                   <XCircle size={24} />
                   <span className="text-xl">Đơn hàng đã bị hủy</span>
-                </div>
-              )}
+                </div>}
             </div>
           </div>
         </div>
       </div>
-      
+
       <Footer />
     </div>
   );
