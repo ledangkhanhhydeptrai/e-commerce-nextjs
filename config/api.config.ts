@@ -38,6 +38,7 @@ export async function fetchBaseResponse<T = unknown>(
 ): Promise<BaseResponse<T>> {
   try {
     const response: AxiosResponse = await API(url, config);
+    console.log("Response:",response);
     const raw = response.data;
     if (Array.isArray(raw)) {
       return {
