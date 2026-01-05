@@ -15,6 +15,8 @@ import Image from "next/image";
 import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
 import { OrderItemProps } from "../orderProps/OrderProps";
+import { useRouter } from "next/navigation";
+import Button from "@/components/ui/Button/Button";
 
 const StatusBadge = ({ status }: { status: OrderEnum }) => {
   const statusConfig = {
@@ -72,7 +74,7 @@ const formatDate = (dateString: string) =>
 
 export default function OrderPage() {
   const { order } = useOrder();
-
+  const router = useRouter();
   if (!order) {
     return (
       <div className="min-h-screen bg-linear-to-br from-indigo-100 via-purple-50 to-pink-100 flex items-center justify-center p-4">
@@ -93,10 +95,16 @@ export default function OrderPage() {
           <p className="text-gray-600 text-center mb-8 text-lg">
             Hiện tại chưa có thông tin đơn hàng nào. Vui lòng thử lại sau.
           </p>
-          <button className="w-full bg-linear-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-bold py-4 px-8 rounded-2xl hover:shadow-2xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2">
+          <Button
+            fullWidth
+            variant="primary"
+            loading={false}
+            onClick={() => router.back()}
+            className="w-full bg-linear-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-bold py-4 px-8 rounded-2xl hover:shadow-2xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
+          >
             <RefreshCw size={20} />
             Làm mới trang
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -171,7 +179,7 @@ export default function OrderPage() {
             </h3>
 
             <div className="space-y-4">
-              {orderData.items.map((item: OrderItemProps) =>
+              {orderData.items.map((item: OrderItemProps) => (
                 <div
                   key={item.productId}
                   className="group relative bg-linear-to-br from-gray-50 to-gray-100 rounded-2xl p-5 hover:from-indigo-50 hover:to-purple-50 transition-all duration-300 border-2 border-transparent hover:border-indigo-200"
@@ -206,7 +214,7 @@ export default function OrderPage() {
                     </div>
                   </div>
                 </div>
-              )}
+              ))}
             </div>
           </div>
 
@@ -243,8 +251,14 @@ export default function OrderPage() {
               </div>
 
               {/* Payment Button */}
-              {orderData.status === "PENDING" &&
-                <button className="w-full mt-6 bg-linear-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-bold py-5 px-8 rounded-2xl hover:shadow-2xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3 group">
+              {orderData.status === "PENDING" && (
+                <Button
+                  onClick={() => router.push(`/payment/${orderData.id}`)}
+                  fullWidth
+                  variant="primary"
+                  loading={false}
+                  className="w-full mt-6 bg-linear-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-bold py-5 px-8 rounded-2xl hover:shadow-2xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3 group"
+                >
                   <CreditCard
                     size={24}
                     className="group-hover:rotate-12 transition-transform duration-300"
@@ -253,19 +267,22 @@ export default function OrderPage() {
                   <div className="ml-2 bg-white/20 px-3 py-1 rounded-full text-sm font-semibold backdrop-blur-sm">
                     {formatPrice(orderData.totalPrice)}
                   </div>
-                </button>}
+                </Button>
+              )}
 
-              {orderData.status === "COMPLETED" &&
+              {orderData.status === "COMPLETED" && (
                 <div className="w-full mt-6 bg-linear-to-r from-green-500 to-emerald-600 text-white font-bold py-5 px-8 rounded-2xl flex items-center justify-center gap-3 shadow-lg">
                   <CheckCircle size={24} />
                   <span className="text-xl">Đã thanh toán thành công</span>
-                </div>}
+                </div>
+              )}
 
-              {orderData.status === "CANCELLED" &&
+              {orderData.status === "CANCELLED" && (
                 <div className="w-full mt-6 bg-linear-to-r from-gray-400 to-gray-500 text-white font-bold py-5 px-8 rounded-2xl flex items-center justify-center gap-3 shadow-lg opacity-75">
                   <XCircle size={24} />
                   <span className="text-xl">Đơn hàng đã bị hủy</span>
-                </div>}
+                </div>
+              )}
             </div>
           </div>
         </div>
