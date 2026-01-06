@@ -15,6 +15,6 @@ export default function* rootSaga() {
     productSaga(),
     CartSaga(),
     OrderSaga(),
-    paymentSaga()
+    paymentSaga(),
   ]);
 }

@@ -1,16 +1,18 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PaymentEnum, PaymentProps } from "../paymentProps/Payment";
 
 export interface PaymentState {
   loading: boolean;
   error: string | null;
   data: PaymentProps | null;
+  status: PaymentEnum | null;
 }
 
 const initialState: PaymentState = {
   loading: false,
   error: null,
   data: null,
+  status:null
 };
 
 const paymentSlice = createSlice({
@@ -32,14 +34,20 @@ const paymentSlice = createSlice({
       state.error = action.payload;
     },
     updatePaymentFromServer(state, action: PayloadAction<PaymentEnum>) {
-      if (state.data) {
-        state.data.paymentStatus = action.payload;
-      }
-    },
-    resetPaymentState(state) {
+      state.status = action.payload;
       state.loading = false;
       state.error = null;
-      state.data = null;
+    },
+    resetPaymentState(state) {
+      state.status = null;
+      state.loading = false;
+      state.error = null;
+    },
+    setLoading(state, action: PayloadAction<boolean>) {
+      state.loading = action.payload;
+    },
+    setError(state, action: PayloadAction<string | null>) {
+      state.error = action.payload;
     },
   },
 });
@@ -50,6 +58,11 @@ export const {
   createPaymentFailure,
   updatePaymentFromServer,
   resetPaymentState,
+  setLoading, setError
 } = paymentSlice.actions;
+// paymentSlice.ts
+export const cancelPaymentRequest = createAction<string>("payment/cancelRequest");
+export const cancelPaymentSuccess = createAction<void>("payment/cancelSuccess");
+export const cancelPaymentFailure = createAction<string>("payment/cancelFailure");
 
 export default paymentSlice.reducer;
