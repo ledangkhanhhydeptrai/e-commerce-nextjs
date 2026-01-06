@@ -1,30 +1,42 @@
 import { getUsernameFromToken } from "@/features/auth/utils/JWTPayload";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+
 console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
+
 const API = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   timeout: 15000
 });
+
+// Interceptor request
 API.interceptors.request.use(
   (config) => {
+    console.log("Request Config Before Send:", config);
+
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("jwt");
+      console.log("Token from localStorage:", token);
 
       if (token) {
         config.headers = config.headers || {};
         config.headers.Authorization = `Bearer ${token}`;
 
-        // 🔥 decode username
         const username = getUsernameFromToken(token);
         if (username) {
-          config.headers["X-Username"] = username; // optional
+          config.headers["X-Username"] = username;
+          console.log("X-Username header added:", username);
         }
       }
     }
+
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    console.log("Request error:", error);
+    return Promise.reject(error);
+  }
 );
+
 export interface BaseResponse<T> {
   status: number;
   message: string;
@@ -32,14 +44,22 @@ export interface BaseResponse<T> {
   serverStatus?: number;
   success?: boolean;
 }
+
+// Hàm fetch base response
 export async function fetchBaseResponse<T = unknown>(
   url: string,
   config: AxiosRequestConfig
 ): Promise<BaseResponse<T>> {
+  console.log("Calling fetchBaseResponse with URL:", url);
+  console.log("Axios config:", config);
+
   try {
     const response: AxiosResponse = await API(url, config);
-    console.log("Response:",response);
+    console.log("Axios response:", response);
+
     const raw = response.data;
+    console.log("Raw response data:", raw);
+
     if (Array.isArray(raw)) {
       return {
         status: response.status,
@@ -49,6 +69,7 @@ export async function fetchBaseResponse<T = unknown>(
         success: true
       };
     }
+
     if (typeof raw !== "object" && raw !== null) {
       return {
         status: response.status,
@@ -58,6 +79,7 @@ export async function fetchBaseResponse<T = unknown>(
         success: raw.success || false
       };
     }
+
     return {
       status: response.status,
       data: raw as T,
@@ -66,8 +88,11 @@ export async function fetchBaseResponse<T = unknown>(
       success: true
     };
   } catch (error) {
+    console.log("Axios catch error:", error);
+
     if (axios.isAxiosError(error)) {
       const raw = error.response?.data;
+      console.log("Axios error response data:", raw);
 
       return {
         status: raw?.status || error.response?.status || 400,
@@ -80,4 +105,5 @@ export async function fetchBaseResponse<T = unknown>(
     throw error; // chỉ throw khi crash thật
   }
 }
+
 export default API;
