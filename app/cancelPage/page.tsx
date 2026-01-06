@@ -1,10 +1,10 @@
-import PaymentReturnPage from '@/features/payment/components/PaymentReturnPage'
-import React from 'react'
+import PaymentReturnPage from "@/features/payment/components/PaymentReturnPage";
+import { Suspense } from "react";
 
-export default function CancelPage() {
+export default function Page() {
   return (
-    <div>
-      <PaymentReturnPage/>
-    </div>
-  )
+    <Suspense fallback={<p>Đang xử lý thanh toán...</p>}>
+      <PaymentReturnPage />
+    </Suspense>
+  );
 }
