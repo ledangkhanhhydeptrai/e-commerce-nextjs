@@ -6,6 +6,7 @@ import homeReducer from "@/features/home/store/homeSlice";
 import CartReducer from "@/features/cart/store/cartSlice";
 import OrderReducer from "@/features/order/store/orderSlice";
 import PaymentReducer from "@/features/payment/store/paymentSlice";
+import ProductIdReducer from "@/features/home/store/productDetailSlice";
 const rootReducer = combineReducers({
   auth: authReducer,
   register: registerReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   cart: CartReducer,
   order: OrderReducer,
   payment: PaymentReducer,
+  productId: ProductIdReducer
 });
 
 export default rootReducer;
