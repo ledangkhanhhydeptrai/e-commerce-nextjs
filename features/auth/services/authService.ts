@@ -1,5 +1,5 @@
 import { fetchBaseResponse } from "@/config/api.config";
-import { API_AUTH_LOGIN, JSON_HEADERS } from "@/constants";
+import { API_AUTH_LOGIN, JSON_HEADERS, ROLE_ADMIN, ROLE_CUSTOMER } from "@/constants";
 
 export interface LoginPayload {
   username: string;
@@ -8,7 +8,7 @@ export interface LoginPayload {
 
 export interface LoginResponse {
   token: string;
-  role: "ADMIN" | "CUSTOMER";
+  role: typeof ROLE_ADMIN | typeof ROLE_CUSTOMER;
 }
 
 export const loginAPI = (payload: LoginPayload) => {

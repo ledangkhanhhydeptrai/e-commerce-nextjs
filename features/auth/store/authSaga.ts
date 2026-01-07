@@ -4,6 +4,7 @@ import { loginRequest, loginSuccess, loginFailure, User } from "./authSlice";
 import { AxiosError, AxiosResponse } from "axios";
 import { loginAPI } from "../services/authService";
 import { getUsernameFromToken } from "../utils/JWTPayload";
+import { decodeJwt } from "../types/jwt";
 
 export interface ApiResponse<T> {
   status: number;
@@ -27,12 +28,16 @@ function* handleLogin(
       username,
       password
     });
-    const { token } = response.data.data;
+    const { token, role } = response.data.data;
     localStorage.setItem("jwt", token);
     const decodedUsername = getUsernameFromToken(token);
     localStorage.setItem("username", decodedUsername ?? "");
+    const payload = decodeJwt(token);
+    if (!payload) {
+      throw new Error("Invalid token");
+    }
     // response.data là ApiResponse<User>
-    yield put(loginSuccess(response.data.data));
+    yield put(loginSuccess({ ...response.data.data, role }));
   } catch (error) {
     let message = "Login failed";
 
