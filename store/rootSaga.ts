@@ -1,5 +1,6 @@
 // store/rootSaga.ts
 
+import userSaga from "@/features/admin/user/store/userSaga";
 import authSaga from "@/features/auth/store/authSaga";
 import { CartSaga } from "@/features/cart/store/cartSaga";
 import { productSaga } from "@/features/home/store/homeSaga";
@@ -16,5 +17,6 @@ export default function* rootSaga() {
     CartSaga(),
     OrderSaga(),
     paymentSaga(),
+    userSaga()
   ]);
 }
