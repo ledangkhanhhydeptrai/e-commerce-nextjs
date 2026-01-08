@@ -1,10 +1,6 @@
-"use client";
-import React from 'react'
+import UserContainer from "@/features/admin/user/userContainer/UserContainer";
+import React from "react";
 
-export default function page() {
-  return (
-    <div>
-      
-    </div>
-  )
+export default function AdminDashboard() {
+  return <UserContainer/>
 }
