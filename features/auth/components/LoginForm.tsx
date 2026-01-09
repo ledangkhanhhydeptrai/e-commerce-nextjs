@@ -14,6 +14,7 @@ import {
   TrendingUp,
   Award
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 // Props interface
 interface Props {
@@ -28,7 +29,7 @@ export default function LoginForm({ onSubmit, loading, error }: Props) {
   const [rememberMe, setRememberMe] = React.useState<boolean>(false);
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const [focusedField, setFocusedField] = React.useState<string | null>(null);
-
+  const router = useRouter();
   const handleSubmit = () => {
     if (!username || !password) return;
     onSubmit(username, password);
@@ -234,7 +235,7 @@ export default function LoginForm({ onSubmit, loading, error }: Props) {
 
             {/* Sign Up Link */}
             <button
-              onClick={() => alert("Navigate to register")}
+              onClick={() => router.push("/auth/register")}
               disabled={loading}
               className="w-full bg-white border-2 border-gray-200 hover:border-indigo-500 hover:bg-indigo-50 text-gray-700 hover:text-indigo-600 font-semibold py-3.5 rounded-xl transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0"
             >
