@@ -8,6 +8,8 @@ import OrderReducer from "@/features/order/store/orderSlice";
 import PaymentReducer from "@/features/payment/store/paymentSlice";
 import ProductIdReducer from "@/features/home/store/productDetailSlice";
 import UserReducer from "@/features/admin/user/store/userSlice";
+import ProductReducer from "@/features/admin/product/store/productSliceAdmin";
+import ProductAdminByIdReducer from "@/features/admin/product/store/productSliceAdminById";
 const rootReducer = combineReducers({
   auth: authReducer,
   register: registerReducer,
@@ -16,7 +18,9 @@ const rootReducer = combineReducers({
   order: OrderReducer,
   payment: PaymentReducer,
   productId: ProductIdReducer,
-  userAdmin: UserReducer
+  userAdmin: UserReducer,
+  productAdmin: ProductReducer,
+  productAdminById: ProductAdminByIdReducer
 });
 
 export default rootReducer;

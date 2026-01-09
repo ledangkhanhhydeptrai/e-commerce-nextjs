@@ -18,7 +18,7 @@ const menuItems: MenuItem[] = [
   {
     icon: <Package className="w-5 h-5" />,
     label: "Quản lý sản phẩm",
-    path: "/evm/admin/products"
+    path: "/admin/product"
   }
 ];
 
