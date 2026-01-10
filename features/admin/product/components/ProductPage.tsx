@@ -24,7 +24,9 @@ import { useProduct } from "../hooks/useProduct";
 import ProductForm from "./ProductForm";
 import Modal from "@/components/ui/Modal/Modal";
 import { ProductProps } from "../services/ProductServices";
+import { useRouter } from "next/navigation";
 export default function ProductPage() {
+  const router = useRouter();
   const { product, loading, error, stats } = useProduct();
   const { totalProduct, totalValue, totalQuantity, lowStock } = stats;
   const [openCreate, setOpenCreate] = React.useState<boolean>(false);
@@ -45,9 +47,8 @@ export default function ProductPage() {
 
   // Select product
   const toggleSelectProduct = (id: string) => {
-    setSelectedProducts(
-      prev =>
-        prev.includes(id) ? prev.filter(pid => pid !== id) : [...prev, id]
+    setSelectedProducts((prev) =>
+      prev.includes(id) ? prev.filter((pid) => pid !== id) : [...prev, id]
     );
   };
 
@@ -55,7 +56,7 @@ export default function ProductPage() {
     if (selectedProducts.length === filteredProducts.length) {
       setSelectedProducts([]);
     } else {
-      setSelectedProducts(filteredProducts.map(p => p.id));
+      setSelectedProducts(filteredProducts.map((p) => p.id));
     }
   };
   if (loading) {
@@ -107,9 +108,7 @@ export default function ProductPage() {
             <h2 className="text-2xl font-bold text-gray-900 mb-3">
               Oops! Có lỗi xảy ra
             </h2>
-            <p className="text-gray-600 mb-6 leading-relaxed">
-              {error}
-            </p>
+            <p className="text-gray-600 mb-6 leading-relaxed">{error}</p>
 
             <div className="mt-6 p-4 bg-gray-50 rounded-xl">
               <p className="text-sm text-gray-600">
@@ -160,9 +159,7 @@ export default function ProductPage() {
                 </span>
               </div>
               <p className="text-gray-600 text-sm mb-1">Tổng sản phẩm</p>
-              <p className="text-3xl font-bold text-gray-900">
-                {totalProduct}
-              </p>
+              <p className="text-3xl font-bold text-gray-900">{totalProduct}</p>
             </div>
 
             <div className="bg-white rounded-2xl p-6 shadow-lg border border-green-100 hover:shadow-xl transition-all duration-200">
@@ -205,9 +202,7 @@ export default function ProductPage() {
                 </span>
               </div>
               <p className="text-gray-600 text-sm mb-1">Sắp hết hàng</p>
-              <p className="text-3xl font-bold text-gray-900">
-                {lowStock}
-              </p>
+              <p className="text-3xl font-bold text-gray-900">{lowStock}</p>
             </div>
           </div>
         </div>
@@ -224,7 +219,7 @@ export default function ProductPage() {
                   type="text"
                   placeholder="Tìm kiếm sản phẩm..."
                   value={searchTerm}
-                  onChange={e => setSearchTerm(e.target.value)}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   className="text-black w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
                 />
               </div>
@@ -247,7 +242,7 @@ export default function ProductPage() {
             </div>
 
             {/* Selected Info */}
-            {selectedProducts.length > 0 &&
+            {selectedProducts.length > 0 && (
               <div className="mt-4 bg-blue-50 border-2 border-blue-200 rounded-xl p-3 flex items-center justify-between">
                 <span className="text-blue-700 font-medium">
                   Đã chọn {selectedProducts.length} sản phẩm
@@ -263,7 +258,8 @@ export default function ProductPage() {
                     Bỏ chọn
                   </button>
                 </div>
-              </div>}
+              </div>
+            )}
           </div>
 
           {/* Table */}
@@ -303,7 +299,7 @@ export default function ProductPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {filteredProducts.map(product =>
+                {filteredProducts.map((product) => (
                   <tr
                     key={product.id}
                     className="hover:bg-blue-50/50 transition-colors group"
@@ -355,20 +351,22 @@ export default function ProductPage() {
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      {product.quantity > 20
-                        ? <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
-                            <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                            Còn hàng
-                          </span>
-                        : product.quantity > 10
-                          ? <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700">
-                              <div className="w-1.5 h-1.5 rounded-full bg-yellow-500" />
-                              Sắp hết
-                            </span>
-                          : <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
-                              <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                              Ít hàng
-                            </span>}
+                      {product.quantity > 20 ? (
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                          <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                          Còn hàng
+                        </span>
+                      ) : product.quantity > 10 ? (
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700">
+                          <div className="w-1.5 h-1.5 rounded-full bg-yellow-500" />
+                          Sắp hết
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
+                          <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                          Ít hàng
+                        </span>
+                      )}
                     </td>
                     <td className="px-6 py-4">
                       <p className="font-bold text-indigo-600">
@@ -382,6 +380,9 @@ export default function ProductPage() {
                           variant="primary"
                           loading={loading}
                           className="p-2 hover:bg-blue-100 rounded-lg transition-all group/btn"
+                          onClick={() =>
+                            router.push(`/admin/product/${product.id}`)
+                          }
                         >
                           <Eye className="w-5 h-5 text-gray-600 group-hover/btn:text-blue-600" />
                         </Button>
@@ -412,7 +413,7 @@ export default function ProductPage() {
                       </div>
                     </td>
                   </tr>
-                )}
+                ))}
               </tbody>
             </table>
           </div>

@@ -17,6 +17,7 @@ import { useCreateProduct } from "../hooks/useProduct";
 import Button from "@/components/ui/Button/Button";
 import Image from "next/image";
 import { ProductFormData } from "../services/ProductServices";
+import { useRouter } from "next/navigation";
 
 export default function ProductForm() {
   const [formData, setFormData] = React.useState<ProductFormData>({
@@ -25,7 +26,7 @@ export default function ProductForm() {
     quantity: 0,
     file: null
   });
-
+  const router = useRouter();
   const [preview, setPreview] = React.useState<string | null>(null);
   const [isDragging, setIsDragging] = React.useState<boolean>(false);
   const [success, setSuccess] = React.useState<boolean>(false);
@@ -38,7 +39,6 @@ export default function ProductForm() {
       ...prev,
       [name]: name === "name" ? value : Number(value)
     }));
-    
   };
 
   // Handle file upload
@@ -69,7 +69,6 @@ export default function ProductForm() {
       setPreview(reader.result as string);
     };
     reader.readAsDataURL(file);
-    
   };
 
   // Handle drag and drop
@@ -144,6 +143,7 @@ export default function ProductForm() {
                 loading={loading}
                 variant="primary"
                 className="p-2 hover:bg-gray-100 rounded-xl transition-all"
+                onClick={() => router.back()}
               >
                 <ArrowLeft className="w-6 h-6 text-gray-600" />
               </Button>
@@ -166,7 +166,6 @@ export default function ProductForm() {
                 onClick={() => {
                   setFormData({ name: "", price: 0, quantity: 0, file: null });
                   setPreview(null);
-                  
                 }}
                 className="px-6 py-2.5 border-2 border-gray-200 rounded-xl hover:border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold transition-all"
                 disabled={loading}

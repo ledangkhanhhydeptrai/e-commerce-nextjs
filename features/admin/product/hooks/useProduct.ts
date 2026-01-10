@@ -15,11 +15,9 @@ const LOW_STOCK_THRESHOLD = 5;
 
 export const useProduct = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const {
-    product,
-    loading,
-    error
-  } = useSelector((state: RootState) => state.productAdmin);
+  const { product, loading, error } = useSelector(
+    (state: RootState) => state.productAdmin
+  );
 
   React.useEffect(() => {
     if (product.length === 0) {
@@ -75,6 +73,7 @@ export const useProductById = (id: string) => {
   );
 
   React.useEffect(() => {
+    if (!id) return; // 🔥 CHẶN undefined / empty
     if (id) {
       dispatch(getProductRequestAdminById(id));
     }

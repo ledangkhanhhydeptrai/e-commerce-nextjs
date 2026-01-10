@@ -49,11 +49,11 @@ function* handleCreateProduct(
   }
 }
 function* handleGetProductById(
-  action: PayloadAction<ProductProps | null>
+  action: PayloadAction<string>
 ): Generator {
   try {
     if (!action.payload) return;
-    const { id } = action.payload;
+    const id = action.payload;
     const response: ProductProps = yield call(getProductById, id);
     yield put(getProductSuccessAdminById(response));
   } catch (error) {
@@ -64,5 +64,5 @@ function* handleGetProductById(
 export default function* productSagaAdmin() {
   yield takeLatest(getProductRequestAdmin.type, handleGetAllProduct);
   yield takeLatest(createProductRequestAdmin.type, handleCreateProduct);
-  yield takeLatest(getProductRequestAdminById.type,handleGetProductById);
+  yield takeLatest(getProductRequestAdminById.type, handleGetProductById);
 }
