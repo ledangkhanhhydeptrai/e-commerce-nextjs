@@ -86,3 +86,46 @@ export const createProductForm = async ({
     throw errors;
   }
 };
+export const updateProductForm = async (
+  id: string,
+  { name, price, quantity, file }: ProductFormData
+) => {
+  try {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("price", String(price));
+    formData.append("quantity", String(quantity));
+    if (file) {
+      formData.append("file", file);
+    }
+
+    const response = await fetchBaseResponse<ProductResponseAdmin>(
+      `/api/product/${id}`,
+      {
+        method: "PUT",
+        data: formData
+      }
+    );
+    return response.data.data;
+  } catch (error) {
+    const errors = error as AxiosError;
+    throw errors;
+  }
+};
+export const deleteProduct = async (id: string) => {
+  try {
+    const response = await fetchBaseResponse<ProductResponseAdmin>(
+      `/api/product/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+    return response.data.data;
+  } catch (error) {
+    const errors = error as AxiosError;
+    throw errors;
+  }
+};

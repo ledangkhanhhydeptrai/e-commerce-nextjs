@@ -7,7 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProductRequestAdminById } from "../store/productSliceAdminById";
 import {
   createProductRequestAdmin,
-  getProductRequestAdmin
+  deleteProductRequestAdmin,
+  getProductRequestAdmin,
+  updateProductRequestAdmin
 } from "../store/productSliceAdmin";
 import { ProductFormData } from "../services/ProductServices";
 
@@ -62,6 +64,7 @@ export const useCreateProduct = () => {
   );
   const createProduct = (data: ProductFormData) => {
     dispatch(createProductRequestAdmin(data));
+    window.location.reload();
   };
   return { loading, error, createProduct };
 };
@@ -84,4 +87,26 @@ export const useProductById = (id: string) => {
     loading,
     error
   };
+};
+export const useUpdateProduct = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { loading, error } = useSelector(
+    (state: RootState) => state.productAdmin
+  );
+  const updateProduct = (data: ProductFormData & { id: string }) => {
+    dispatch(updateProductRequestAdmin(data));
+  };
+  return { loading, error, updateProduct };
+};
+export const useDeleteProduct = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { loading, error } = useSelector(
+    (state: RootState) => state.productAdmin
+  );
+  const deleteProduct = (productId: string) => {
+    console.log("Dispatch delete ID:", productId);
+    dispatch(deleteProductRequestAdmin(productId));
+    window.location.reload();
+  };
+  return { loading, error, deleteProduct };
 };

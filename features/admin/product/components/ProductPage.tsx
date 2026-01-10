@@ -20,17 +20,24 @@ import {
 import Input from "@/components/ui/Input/Input";
 import Image from "next/image";
 import Button from "@/components/ui/Button/Button";
-import { useProduct } from "../hooks/useProduct";
+import { useDeleteProduct, useProduct } from "../hooks/useProduct";
 import ProductForm from "./ProductForm";
 import Modal from "@/components/ui/Modal/Modal";
 import { ProductProps } from "../services/ProductServices";
 import { useRouter } from "next/navigation";
+import UpdateProductForm from "./UpdateProductForm";
 export default function ProductPage() {
   const router = useRouter();
+  const [open, setOpen] = React.useState<boolean>(false);
   const { product, loading, error, stats } = useProduct();
+  const { deleteProduct } = useDeleteProduct();
   const { totalProduct, totalValue, totalQuantity, lowStock } = stats;
   const [openCreate, setOpenCreate] = React.useState<boolean>(false);
-  const [searchTerm, setSearchTerm] = React.useState("");
+  const [searchTerm, setSearchTerm] = React.useState<string>("");
+  const [selectedProductId, setSelectedProductId] = React.useState<
+    string | null
+  >(null);
+
   const [selectedProducts, setSelectedProducts] = React.useState<string[]>([]);
   // Format currency
   const formatPrice = (price: number) => {
@@ -390,6 +397,10 @@ export default function ProductPage() {
                           fullWidth
                           variant="primary"
                           loading={loading}
+                          onClick={() => {
+                            setSelectedProductId(product.id);
+                            setOpen(true);
+                          }}
                           className="p-2 hover:bg-green-100 rounded-lg transition-all group/btn"
                         >
                           <Edit2 className="w-5 h-5 text-gray-600 group-hover/btn:text-green-600" />
@@ -398,6 +409,7 @@ export default function ProductPage() {
                           fullWidth
                           variant="primary"
                           loading={loading}
+                          onClick={() => deleteProduct(product.id)}
                           className="p-2 hover:bg-red-100 rounded-lg transition-all group/btn"
                         >
                           <Trash2 className="w-5 h-5 text-gray-600 group-hover/btn:text-red-600" />
@@ -461,6 +473,26 @@ export default function ProductPage() {
         showCloseButton={false}
       >
         <ProductForm />
+      </Modal>
+      <Modal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        title="Cập nhật sản phẩm"
+        size="xl"
+        type="info"
+        closeOnOverlayClick={false}
+        showCloseButton={false}
+      >
+        {selectedProductId && (
+          <UpdateProductForm
+            open={open}
+            onClose={() => {
+              setOpen(false);
+              setSelectedProductId(null);
+            }}
+            productId={selectedProductId}
+          />
+        )}
       </Modal>
     </div>
   );

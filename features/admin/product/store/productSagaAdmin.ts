@@ -1,18 +1,26 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import {
   createProductForm,
+  deleteProduct,
   getAllProduct,
   getProductById,
   ProductFormData,
-  ProductProps
+  ProductProps,
+  updateProductForm
 } from "../services/ProductServices";
 import {
   createProductFailureAdmin,
   createProductRequestAdmin,
   createProductSuccessAdmin,
+  deleteProductFailureAdmin,
+  deleteProductRequestAdmin,
+  deleteProductSuccessAdmin,
   getProductFailureAdmin,
   getProductRequestAdmin,
-  getProductSuccessAdmin
+  getProductSuccessAdmin,
+  updateProductFailureAdmin,
+  updateProductRequestAdmin,
+  updateProductSuccessAdmin
 } from "./productSliceAdmin";
 import { AxiosError } from "axios";
 import { PayloadAction } from "@reduxjs/toolkit";
@@ -48,9 +56,7 @@ function* handleCreateProduct(
     yield put(createProductFailureAdmin(errors.message));
   }
 }
-function* handleGetProductById(
-  action: PayloadAction<string>
-): Generator {
+function* handleGetProductById(action: PayloadAction<string>): Generator {
   try {
     if (!action.payload) return;
     const id = action.payload;
@@ -61,8 +67,39 @@ function* handleGetProductById(
     yield put(getProductFailureAdminById(errors.message));
   }
 }
+function* updateProductById(
+  action: PayloadAction<ProductFormData & { id: string }>
+): Generator {
+  try {
+    if (!action.payload) return;
+    const { id, name, price, quantity, file } = action.payload;
+    const response: ProductProps = yield call(updateProductForm, id, {
+      name,
+      price,
+      quantity,
+      file
+    });
+    yield put(updateProductSuccessAdmin(response));
+  } catch (error) {
+    const errors = error as AxiosError;
+    yield put(updateProductFailureAdmin(errors.message));
+  }
+}
+function* handleDeleteProduct(
+  action: PayloadAction<string>
+): Generator {
+  try {
+    const response = yield call(deleteProduct, action.payload);
+    yield put(deleteProductSuccessAdmin(response));
+  } catch (error) {
+    const errors = error as AxiosError;
+    yield put(deleteProductFailureAdmin(errors.message));
+  }
+}
 export default function* productSagaAdmin() {
   yield takeLatest(getProductRequestAdmin.type, handleGetAllProduct);
   yield takeLatest(createProductRequestAdmin.type, handleCreateProduct);
   yield takeLatest(getProductRequestAdminById.type, handleGetProductById);
+  yield takeLatest(updateProductRequestAdmin.type, updateProductById);
+  yield takeLatest(deleteProductRequestAdmin.type, handleDeleteProduct);
 }
