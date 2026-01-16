@@ -5,6 +5,7 @@ import { CartSaga } from "@/features/cart/store/cartSaga";
 import { productSaga } from "@/features/home/store/homeSaga";
 import OrderSaga from "@/features/order/store/orderSaga";
 import paymentSaga from "@/features/payment/store/paymentSaga";
+import profileSaga from "@/features/profile/store/profileSaga";
 import registerSaga from "@/features/register/store/registerSaga";
 import { all } from "redux-saga/effects";
 export default function* rootSaga() {
@@ -16,6 +17,7 @@ export default function* rootSaga() {
     OrderSaga(),
     paymentSaga(),
     userSaga(),
-    productSagaAdmin()
+    productSagaAdmin(),
+    profileSaga()
   ]);
 }
