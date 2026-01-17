@@ -30,11 +30,16 @@ const UpdateSlice = createSlice({
     updateProfileSuccess(state, action: PayloadAction<ProfileProps>) {
       state.loading = false;
       state.profile = action.payload;
+      state.success = true; // 👈 BẮT BUỘC
     },
 
     updateProfileFailure(state, action: PayloadAction<string>) {
       state.loading = false;
       state.error = action.payload;
+    },
+    resetUpdateProfileState(state) {
+      state.success = false;
+      state.error = null;
     }
   }
 });
@@ -42,7 +47,8 @@ const UpdateSlice = createSlice({
 export const {
   updateProfileRequest,
   updateProfileSuccess,
-  updateProfileFailure
+  updateProfileFailure,
+  resetUpdateProfileState
 } = UpdateSlice.actions;
 
 export default UpdateSlice.reducer;
