@@ -8,11 +8,12 @@ interface ModalProps {
   onClose: () => void;
   title?: string;
   children?: React.ReactNode;
-  size: "sm" | "md" | "lg" | "xl";
-  type: "default" | "success" | "error" | "warning" | "info";
-  showCloseButton: boolean;
-  closeOnOverlayClick: boolean;
+  size?: "sm" | "md" | "lg" | "xl";
+  type?: "default" | "success" | "error" | "warning" | "info";
+  showCloseButton?: boolean;
+  closeOnOverlayClick?: boolean;
 }
+
 
 const Modal: React.FC<ModalProps> = ({
   isOpen,
