@@ -18,3 +18,26 @@ export const getAPIProfile = async () => {
     throw errors;
   }
 };
+export const updateUserProfile = async ({
+  username,
+  email
+}: {
+  username: string;
+  email: string;
+}) => {
+  try {
+    const response = await fetchBaseResponse<ProfileResponse>(`/api/profile`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      data: { username, email }
+    });
+    if (response.status === 200) {
+      return response.data.data;
+    }
+  } catch (error) {
+    const errors = error as AxiosError;
+    throw errors;
+  }
+};

@@ -11,7 +11,10 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   fullWidth?: boolean;
 }
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
+const Input = React.forwardRef<
+  HTMLInputElement,
+  InputProps
+>(
   (
     {
       error = null,
@@ -67,29 +70,22 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <label
             className={`
               absolute left-3 z-10 transition-all pointer-events-none
-              ${
-                isFloating
-                  ? "-top-2 text-xs px-1 bg-white rounded-sm"
-                  : "top-1/2 -translate-y-1/2 text-sm"
-              }
-              ${
-                error
-                  ? "text-red-600"
-                  : isFocused
-                  ? "text-purple-600"
-                  : "text-gray-500"
-              }
+              ${isFloating
+                ? "-top-2 text-xs px-1 bg-white rounded-sm"
+                : "top-1/2 -translate-y-1/2 text-sm"}
+              ${error
+                ? "text-red-600"
+                : isFocused ? "text-purple-600" : "text-gray-500"}
             `}
           >
             {required && <span className="text-red-500 ml-0.5">*</span>}
           </label>
 
           {/* ===== Left Icon ===== */}
-          {leftIcon && (
+          {leftIcon &&
             <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
               {leftIcon}
-            </div>
-          )}
+            </div>}
 
           {/* ===== Input ===== */}
           <input
@@ -116,23 +112,23 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           />
 
           {/* ===== Right Icon ===== */}
-          {rightIcon && (
+          {rightIcon &&
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
               {rightIcon}
-            </div>
-          )}
+            </div>}
         </div>
 
         {/* ===== Error / Helper ===== */}
-        {(error || helperText) && (
+        {(error || helperText) &&
           <div className="mt-1.5">
-            {error ? (
-              <p className="text-sm text-red-600">{error}</p>
-            ) : (
-              <p className="text-sm text-gray-500">{helperText}</p>
-            )}
-          </div>
-        )}
+            {error
+              ? <p className="text-sm text-red-600">
+                  {error}
+                </p>
+              : <p className="text-sm text-gray-500">
+                  {helperText}
+                </p>}
+          </div>}
       </div>
     );
   }

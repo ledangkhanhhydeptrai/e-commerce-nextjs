@@ -2,19 +2,154 @@ import React, { useState } from "react";
 import { useProfile } from "../hooks/useProfile";
 import Footer from "@/components/layouts/Footer";
 import Header from "@/components/layouts/Header";
+import Modal from "@/components/ui/Modal/Modal";
+import ProfileForm from "./ProfileForm";
+import { useDispatch } from "react-redux";
+import { updateProfileRequest } from "../store/profileUpdateSlice";
 
 const Profile: React.FC = () => {
   const [copied, setCopied] = useState(false);
-
+  const [showUpdate, setShowUpdate] = React.useState<boolean>(false);
   const { data, loading, error } = useProfile();
-
-  const copyEmail = () => {
-    if (data?.email) {
-      navigator.clipboard.writeText(data.email);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+  const [email, setEmail] = React.useState<string>("");
+  const [username, setUsername] = React.useState<string>("");
+  const [id, setId] = React.useState<string>("");
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    if (data && showUpdate) {
+      setEmail(data.email);
+      setUsername(data.username);
+      setId(data.id);
     }
+  }, [data, showUpdate]);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(
+      updateProfileRequest({
+        email,
+        username
+      })
+    );
   };
+  const handleUpdate = () => {
+    setShowUpdate(!showUpdate);
+  };
+  if (!data) {
+    return (
+      <div className="min-h-screen bg-linear-to-br from-orange-50 via-rose-50 to-pink-50 flex items-center justify-center p-6">
+        <style>
+          {`
+            @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap');
+            
+            * {
+              font-family: 'Manrope', sans-serif;
+            }
+            
+            h1, h2, .font-display {
+              font-family: 'Bricolage Grotesque', sans-serif;
+            }
+            
+            @keyframes float {
+              0%, 100% { transform: translateY(0px); }
+              50% { transform: translateY(-20px); }
+            }
+            
+            @keyframes fadeIn {
+              from { opacity: 0; transform: scale(0.9); }
+              to { opacity: 1; transform: scale(1); }
+            }
+            
+            .animate-float {
+              animation: float 3s ease-in-out infinite;
+            }
+            
+            .animate-fade-in {
+              animation: fadeIn 0.5s ease-out;
+            }
+          `}
+        </style>
+
+        <div className="w-full max-w-lg animate-fade-in">
+          <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-10 border border-white/50 text-center">
+            {/* Empty Icon */}
+            <div className="flex justify-center mb-8">
+              <div className="w-32 h-32 rounded-3xl bg-linear-to-br from-gray-200 via-gray-300 to-gray-400 flex items-center justify-center shadow-2xl animate-float">
+                <svg
+                  className="w-16 h-16 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            {/* No Data Message */}
+            <h1 className="text-4xl font-display font-bold text-gray-900 mb-4">
+              Không có dữ liệu
+            </h1>
+            <p className="text-gray-600 font-medium mb-8">
+              Không tìm thấy thông tin tài khoản của bạn
+            </p>
+
+            {/* Action Buttons */}
+            <div className="space-y-3">
+              <button
+                onClick={() => window.location.reload()}
+                className="w-full group relative overflow-hidden bg-linear-to-r from-orange-500 via-rose-500 to-pink-500 text-white font-bold py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
+              >
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                    />
+                  </svg>
+                  Tải lại trang
+                </span>
+                <div className="absolute inset-0 bg-linear-to-r from-pink-600 via-rose-600 to-orange-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </button>
+
+              <button
+                onClick={() => window.history.back()}
+                className="w-full bg-white border-2 border-gray-200 text-gray-700 font-bold py-4 px-6 rounded-2xl hover:border-rose-400 hover:text-rose-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+              >
+                <span className="flex items-center justify-center gap-2">
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                    />
+                  </svg>
+                  Về trang chủ
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Loading State
   if (loading) {
@@ -236,124 +371,16 @@ const Profile: React.FC = () => {
   }
 
   // No Data State
-  if (!data) {
-    return (
-      <div className="min-h-screen bg-linear-to-br from-orange-50 via-rose-50 to-pink-50 flex items-center justify-center p-6">
-        <style>
-          {`
-            @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap');
-            
-            * {
-              font-family: 'Manrope', sans-serif;
-            }
-            
-            h1, h2, .font-display {
-              font-family: 'Bricolage Grotesque', sans-serif;
-            }
-            
-            @keyframes float {
-              0%, 100% { transform: translateY(0px); }
-              50% { transform: translateY(-20px); }
-            }
-            
-            @keyframes fadeIn {
-              from { opacity: 0; transform: scale(0.9); }
-              to { opacity: 1; transform: scale(1); }
-            }
-            
-            .animate-float {
-              animation: float 3s ease-in-out infinite;
-            }
-            
-            .animate-fade-in {
-              animation: fadeIn 0.5s ease-out;
-            }
-          `}
-        </style>
 
-        <div className="w-full max-w-lg animate-fade-in">
-          <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-10 border border-white/50 text-center">
-            {/* Empty Icon */}
-            <div className="flex justify-center mb-8">
-              <div className="w-32 h-32 rounded-3xl bg-linear-to-br from-gray-200 via-gray-300 to-gray-400 flex items-center justify-center shadow-2xl animate-float">
-                <svg
-                  className="w-16 h-16 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
-                  />
-                </svg>
-              </div>
-            </div>
-
-            {/* No Data Message */}
-            <h1 className="text-4xl font-display font-bold text-gray-900 mb-4">
-              Không có dữ liệu
-            </h1>
-            <p className="text-gray-600 font-medium mb-8">
-              Không tìm thấy thông tin tài khoản của bạn
-            </p>
-
-            {/* Action Buttons */}
-            <div className="space-y-3">
-              <button
-                onClick={() => window.location.reload()}
-                className="w-full group relative overflow-hidden bg-linear-to-r from-orange-500 via-rose-500 to-pink-500 text-white font-bold py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
-              >
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                    />
-                  </svg>
-                  Tải lại trang
-                </span>
-                <div className="absolute inset-0 bg-linear-to-r from-pink-600 via-rose-600 to-orange-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </button>
-
-              <button
-                onClick={() => window.history.back()}
-                className="w-full bg-white border-2 border-gray-200 text-gray-700 font-bold py-4 px-6 rounded-2xl hover:border-rose-400 hover:text-rose-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-              >
-                <span className="flex items-center justify-center gap-2">
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                    />
-                  </svg>
-                  Về trang chủ
-                </span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+  const copyEmail = () => {
+    if (data.email) {
+      navigator.clipboard.writeText(data.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
   // Success State (Normal UI)
+
   return (
     <>
       <Header />
@@ -540,7 +567,10 @@ const Profile: React.FC = () => {
 
             {/* Action Buttons */}
             <div className="grid grid-cols-2 gap-4 mt-10">
-              <button className="group relative overflow-hidden bg-linear-to-r from-orange-500 via-rose-500 to-pink-500 text-white font-bold py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+              <button
+                onClick={handleUpdate}
+                className="group relative overflow-hidden bg-linear-to-r from-orange-500 via-rose-500 to-pink-500 text-white font-bold py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
+              >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   <svg
                     className="w-5 h-5"
@@ -587,6 +617,24 @@ const Profile: React.FC = () => {
             </div>
           </div>
         </div>
+        <Modal
+          showCloseButton={true}
+          isOpen={showUpdate}
+          onClose={() => setShowUpdate(false)}
+          size="md"
+          type="info"
+          title="Form Cập nhật"
+          closeOnOverlayClick={false}
+        >
+          <ProfileForm
+            id={id}
+            email={email}
+            setEmail={setEmail}
+            username={username}
+            setUsername={setUsername}
+            onSubmit={handleSubmit}
+          />
+        </Modal>
       </div>
       <Footer />
     </>

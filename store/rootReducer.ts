@@ -11,6 +11,7 @@ import UserReducer from "@/features/admin/user/store/userSlice";
 import ProductReducer from "@/features/admin/product/store/productSliceAdmin";
 import ProductAdminByIdReducer from "@/features/admin/product/store/productSliceAdminById";
 import ProfileReducer from "@/features/profile/store/profileSlice";
+import UpdateProfileReducer from "@/features/profile/store/profileUpdateSlice";
 const rootReducer = combineReducers({
   auth: authReducer,
   register: registerReducer,
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
   userAdmin: UserReducer,
   productAdmin: ProductReducer,
   productAdminById: ProductAdminByIdReducer,
-  profile: ProfileReducer
+  profile: ProfileReducer,
+  updateProfile: UpdateProfileReducer
 });
 
 export default rootReducer;
