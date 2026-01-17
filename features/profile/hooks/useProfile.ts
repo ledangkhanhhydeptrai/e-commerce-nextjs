@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProfileRequest } from "../store/profileSlice";
 
 import { AppDispatch } from "@/store/store";
+import { resetUpdateProfileState } from "../store/profileUpdateSlice";
 
 export const useProfile = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -23,6 +24,7 @@ export const useProfile = () => {
   React.useEffect(() => {
     if (success) {
       dispatch(getProfileRequest());
+      dispatch(resetUpdateProfileState());     // reset success
     }
   }, [success, dispatch]);
 
