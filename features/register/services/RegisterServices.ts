@@ -1,22 +1,34 @@
 import { fetchBaseResponse } from "../../../config/api.config";
+export interface RegisterFormValues {
+  username: string;
+  email: string;
+  password: string;
+  fileUrl: File | null;
+}
 
 export interface RegisterPayload {
   username: string;
   email: string;
   password: string;
 }
-
-export const RegisterAPI = async (payload: RegisterPayload) => {
-  try {
-    return await fetchBaseResponse("/api/auth/register", {
+export interface RegisterResponse {
+  status: number;
+  message: string;
+  data: null;
+}
+export const RegisterAPI = async (
+  formData: FormData
+): Promise<RegisterResponse> => {
+  const response = await fetchBaseResponse<RegisterResponse>(
+    "/api/auth/register",
+    {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      data: payload
-    });
-  } catch (error) {
-    console.error("Register API error:", error);
-    throw error; // ném lại cho saga xử lý
+      data: formData
+    }
+  );
+  if (response.status !== 200) {
+    throw new Error(response.message);
   }
+  // ✅ RETURN CẢ RESPONSE
+  return response.data;
 };

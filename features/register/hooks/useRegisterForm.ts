@@ -1,12 +1,12 @@
 "use client";
-import { useState } from "react";
+import React from "react";
 
 export default function useRegisterForm() {
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [formError, setFormError] = useState<string | null>(null);
-
+  const [email, setEmail] = React.useState<string>("");
+  const [username, setUsername] = React.useState<string>("");
+  const [password, setPassword] = React.useState<string>("");
+  const [formError, setFormError] = React.useState<string | null>(null);
+  const [fileUrl, setFileUrl] = React.useState<File | null>(null);
   const validate = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -23,7 +23,10 @@ export default function useRegisterForm() {
       setFormError("Mật khẩu tối thiểu 6 ký tự");
       return false;
     }
-
+    if (fileUrl === null) {
+      setFormError("Phải upload file");
+      return false;
+    }
     setFormError(null);
     return true;
   };
@@ -36,6 +39,8 @@ export default function useRegisterForm() {
     setEmail,
     setUsername,
     setPassword,
+    fileUrl,
+    setFileUrl,
     validate
   };
 }
