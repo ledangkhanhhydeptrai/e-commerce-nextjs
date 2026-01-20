@@ -2,7 +2,7 @@ import { fetchBaseResponse } from "@/config/api.config";
 import { API_AUTH_LOGIN, JSON_HEADERS, ROLE_ADMIN, ROLE_CUSTOMER } from "@/constants";
 
 export interface LoginPayload {
-  username: string;
+  email: string;
   password: string;
 }
 

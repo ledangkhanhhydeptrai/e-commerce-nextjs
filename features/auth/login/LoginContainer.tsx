@@ -21,8 +21,8 @@ export default function LoginContainer() {
     role
   });
 
-  const handleLogin = (username: string, password: string) => {
-    dispatch(loginRequest({ username, password }));
+  const handleLogin = (email: string, password: string) => {
+    dispatch(loginRequest({ email, password }));
   };
 
   return <LoginForm onSubmit={handleLogin} loading={loading} error={error} />;

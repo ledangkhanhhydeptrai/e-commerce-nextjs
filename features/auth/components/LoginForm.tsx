@@ -24,15 +24,15 @@ interface Props {
 }
 
 export default function LoginForm({ onSubmit, loading, error }: Props) {
-  const [username, setUsername] = React.useState<string>("");
+  const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [rememberMe, setRememberMe] = React.useState<boolean>(false);
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const [focusedField, setFocusedField] = React.useState<string | null>(null);
   const router = useRouter();
   const handleSubmit = () => {
-    if (!username || !password) return;
-    onSubmit(username, password);
+    if (!email || !password) return;
+    onSubmit(email, password);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -93,7 +93,7 @@ export default function LoginForm({ onSubmit, loading, error }: Props) {
             {/* Username Input */}
             <div className="space-y-2">
               <label className="text-sm font-semibold text-gray-700">
-                Tên đăng nhập <span className="text-red-500">*</span>
+                Mail đăng nhập <span className="text-red-500">*</span>
               </label>
               <div className="relative group">
                 <User
@@ -105,14 +105,14 @@ export default function LoginForm({ onSubmit, loading, error }: Props) {
                 />
                 <input
                   type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  onFocus={() => setFocusedField("username")}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  onFocus={() => setFocusedField("email")}
                   onBlur={() => setFocusedField(null)}
                   className={`w-full pl-12 pr-4 py-3.5 rounded-xl border-2 transition-all duration-200 focus:outline-none text-gray-900 font-medium ${
                     error
                       ? "border-red-300 focus:border-red-500"
-                      : focusedField === "username"
+                      : focusedField === "email"
                       ? "border-indigo-500 shadow-lg shadow-indigo-100"
                       : "border-gray-200"
                   } hover:border-indigo-300 bg-white`}
@@ -190,7 +190,7 @@ export default function LoginForm({ onSubmit, loading, error }: Props) {
             {/* Login Button */}
             <button
               onClick={handleSubmit}
-              disabled={loading || !username || !password}
+              disabled={loading || !email || !password}
               className="w-full bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none relative overflow-hidden group"
             >
               <div className="absolute inset-0 bg-linear-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-20 transform -translate-x-full group-hover:translate-x-full transition-all duration-700"></div>

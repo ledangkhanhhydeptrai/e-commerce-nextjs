@@ -22,10 +22,10 @@ function* handleLogin(
   action: ReturnType<typeof loginRequest>
 ): Generator<unknown, void, AxiosResponse<ApiResponse<User>>> {
   try {
-    const { username, password } = action.payload;
+    const { email, password } = action.payload;
 
     const response = yield call(loginAPI, {
-      username,
+      email,
       password
     });
     const { token, role } = response.data.data;
