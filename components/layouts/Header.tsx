@@ -26,7 +26,7 @@ export default function Header() {
 
   const handleLogout = () => {
     localStorage.removeItem("jwt");
-    localStorage.removeItem("username");
+    localStorage.removeItem("email");
     logout();
     setUser(null);
     setDropdownOpen(false);
@@ -36,6 +36,7 @@ export default function Header() {
   React.useEffect(() => {
     const storeToken = localStorage.getItem("jwt");
     const storedUsername = localStorage.getItem("username");
+    console.log("Store:", storedUsername);
     if (storeToken) {
       setUser({ token: storeToken, username: storedUsername || "User" });
     }

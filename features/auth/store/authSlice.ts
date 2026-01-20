@@ -8,7 +8,7 @@ export interface User {
 }
 
 interface LoginPayload {
-  username: string;
+  email: string;
   password: string;
 }
 

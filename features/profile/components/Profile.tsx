@@ -5,6 +5,7 @@ import Header from "@/components/layouts/Header";
 import Input from "@/components/ui/Input/Input";
 import { useDispatch } from "react-redux";
 import { updateProfileRequest } from "../store/profileUpdateSlice";
+import Image from "next/image";
 
 const Profile: React.FC = () => {
   const [copied, setCopied] = useState(false);
@@ -12,12 +13,14 @@ const Profile: React.FC = () => {
   const [email, setEmail] = React.useState<string>("");
   const [username, setUsername] = React.useState<string>("");
   const [focusedField, setFocusedField] = React.useState<string | null>(null);
+  const [imageError, setImageError] = React.useState(false);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     if (data) {
       setEmail(data.email);
       setUsername(data.username);
+      setImageError(false); // Reset image error when data changes
     }
   }, [data, success]);
 
@@ -29,6 +32,10 @@ const Profile: React.FC = () => {
         username
       })
     );
+  };
+
+  const handleImageError = () => {
+    setImageError(true);
   };
 
   if (!data) {
@@ -172,6 +179,7 @@ const Profile: React.FC = () => {
       </div>
     );
   }
+
   const copyEmail = () => {
     if (data.email) {
       navigator.clipboard.writeText(data.email);
@@ -179,6 +187,10 @@ const Profile: React.FC = () => {
       setTimeout(() => setCopied(false), 2000);
     }
   };
+
+  // Check if user has image and it's not errored
+  const hasValidImage = data.image && !imageError;
+
   return (
     <>
       <Header />
@@ -247,6 +259,11 @@ const Profile: React.FC = () => {
           .stat-card:hover {
             transform: translateY(-4px);
           }
+
+          .avatar-image {
+            object-fit: cover;
+            object-position: center;
+          }
         `}
         </style>
 
@@ -265,10 +282,21 @@ const Profile: React.FC = () => {
                     {/* Avatar Section */}
                     <div className="flex justify-center mb-8">
                       <div className="relative">
-                        <div className="w-40 h-40 rounded-3xl bg-linear-to-br from-orange-400 via-rose-400 to-pink-500 flex items-center justify-center shadow-2xl transform hover:scale-105 transition-transform duration-300 cursor-pointer">
-                          <span className="text-7xl font-display font-bold text-white">
-                            {data.username.charAt(0).toUpperCase()}
-                          </span>
+                        <div className="w-40 h-40 rounded-3xl bg-linear-to-br from-orange-400 via-rose-400 to-pink-500 flex items-center justify-center shadow-2xl transform hover:scale-105 transition-transform duration-300 cursor-pointer overflow-hidden">
+                          {hasValidImage ? (
+                            <Image
+                              src={data.image}
+                              alt={data.username}
+                              width={300}
+                              height={300}
+                              onError={handleImageError}
+                              className="w-full h-full avatar-image"
+                            />
+                          ) : (
+                            <span className="text-7xl font-display font-bold text-white">
+                              {data.username.charAt(0).toUpperCase()}
+                            </span>
+                          )}
                         </div>
                         <div className="absolute -bottom-3 -right-3 w-12 h-12 bg-emerald-400 rounded-full border-4 border-white shadow-lg flex items-center justify-center animate-pulse-soft">
                           <svg
