@@ -1,34 +1,28 @@
-import { ApiErrorResponse, ApiResponse } from "@/features/auth/store/authSaga";
-import { AxiosError, AxiosResponse } from "axios";
-import { registerFailure, registerRequest, registerSuccess } from "./registerSlice";
+import { AxiosError } from "axios";
+import {
+  registerFailure,
+  registerRequest,
+  registerSuccess
+} from "./registerSlice";
 import { call, put, takeLatest } from "redux-saga/effects";
 import { RegisterAPI } from "../services/RegisterServices";
 
-function* handleRegister(
-  action: ReturnType<typeof registerRequest>
-): Generator<unknown, void, AxiosResponse<ApiResponse<null>>> {
+function* handleRegister(action: ReturnType<typeof registerRequest>): Generator<
+  // Yielded values
+  unknown,
+  // Return type
+  void
+  // Next value (kết quả của yield call)
+> {
   try {
-    const { email, username, password } = action.payload;
-    const response = yield call(RegisterAPI, { email, username, password });
-    yield put(registerSuccess(response.data));
+    const response = yield call(RegisterAPI, action.payload);
+
+    yield put(registerSuccess(response));
   } catch (error) {
-    let message = "Login failed";
-
-    if (error && (error as AxiosError).isAxiosError) {
-      const err = error as AxiosError<ApiErrorResponse>;
-
-      if (
-        err.response &&
-        err.response.data &&
-        typeof err.response.data.message === "string"
-      ) {
-        message = err.response.data.message;
-      }
-    }
-
-    yield put(registerFailure(message));
+    yield put(registerFailure((error as AxiosError).message));
   }
 }
+
 export default function* registerSaga() {
   yield takeLatest(registerRequest.type, handleRegister);
 }
