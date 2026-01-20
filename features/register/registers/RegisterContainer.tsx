@@ -2,7 +2,7 @@
 import { RootState } from "@/store/store";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { registerRequest } from "../store/registerSlice";
+import { registerRequest, resetRegisterState } from "../store/registerSlice";
 import RegisterForm from "../components/RegisterForm";
 import { useRouter } from "next/navigation";
 import { RegisterFormValues } from "../services/RegisterServices";
@@ -17,41 +17,50 @@ interface NotificationsProps {
 const RegisterContainer: React.FC = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+
   const { loading, error, success } = useSelector(
-    (rootState: RootState) => rootState.register
+    (state: RootState) => state.register
   );
+
   const [notification, setNotification] = React.useState<NotificationsProps>({
     open: false,
     message: "",
     severity: "success"
   });
 
+  // ✅ Khi đăng ký THÀNH CÔNG
   React.useEffect(() => {
-    if (success) {
-      setNotification({
-        open: true,
-        message: "Đăng ký thành công! Đang chuyển đến trang đăng nhập...",
-        severity: "success"
-      });
+    if (!success) return;
 
-      const timer = setTimeout(() => {
-        router.push("/auth/login");
-      }, 1500);
+    setNotification({
+      open: true,
+      message: "Đăng ký thành công! Đang chuyển trang...",
+      severity: "success"
+    });
 
-      return () => clearTimeout(timer);
-    }
-  }, [success, router]);
+    const timer = setTimeout(() => {
+      dispatch(resetRegisterState());
+      router.push("/auth/login");
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [success, dispatch, router]);
+
+  // ❌ Khi đăng ký THẤT BẠI
   React.useEffect(() => {
-    if (error) {
-      setNotification({
-        open: true,
-        message: error,
-        severity: "error"
-      });
-    }
+    if (!error) return;
+
+    setNotification({
+      open: true,
+      message: error,
+      severity: "error"
+    });
   }, [error]);
 
   const handleRegister = (values: RegisterFormValues) => {
+    // reset notification cũ
+    setNotification((prev) => ({ ...prev, open: false }));
+
     const formData = new FormData();
     formData.append("username", values.username);
     formData.append("email", values.email);
@@ -63,6 +72,7 @@ const RegisterContainer: React.FC = () => {
 
     dispatch(registerRequest(formData));
   };
+
   const handleCloseNotification = () => {
     setNotification((prev) => ({ ...prev, open: false }));
   };

@@ -5,24 +5,40 @@ import {
   registerSuccess
 } from "./registerSlice";
 import { call, put, takeLatest } from "redux-saga/effects";
-import { RegisterAPI } from "../services/RegisterServices";
+import { RegisterAPI, RegisterResponse } from "../services/RegisterServices";
 
 function* handleRegister(action: ReturnType<typeof registerRequest>): Generator<
-  // Yielded values
+  // yield type
   unknown,
-  // Return type
-  void
-  // Next value (kết quả của yield call)
+  // return type
+  void,
+  // next value type (kết quả yield call)
+  RegisterResponse
 > {
   try {
-    const response = yield call(RegisterAPI, action.payload);
+    console.log("🔥 SAGA START", action.payload);
 
-    yield put(registerSuccess(response));
+    const response = yield call(RegisterAPI, action.payload);
+    console.log("✅ API RESPONSE", response);
+
+    // ❌ API báo lỗi
+    if (response.status !== 201) {
+      yield put(registerFailure(response.message || "Đăng ký thất bại"));
+      return;
+    }
+
+    // ✅ API thành công
+    yield put(registerSuccess());
   } catch (error) {
-    yield put(registerFailure((error as AxiosError).message));
+    console.log("❌ API ERROR", error);
+    yield put(
+      registerFailure((error as AxiosError)?.message || "Có lỗi xảy ra")
+    );
+  } finally {
+    console.log("🟡 SAGA FINISH");
   }
 }
 
 export default function* registerSaga() {
-  yield takeLatest(registerRequest.type, handleRegister);
+  yield takeLatest(registerRequest, handleRegister);
 }
