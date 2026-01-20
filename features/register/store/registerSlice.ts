@@ -23,20 +23,28 @@ const registerSlice = createSlice({
       state.success = false;
     },
 
-    registerSuccess(state, action) {
+    registerSuccess(state) {
       state.loading = false;
-      state.response = action.payload;
       state.success = true;
     },
 
-    registerFailure(state, action) {
+    registerFailure(state, action: PayloadAction<string>) {
       state.loading = false;
       state.error = action.payload;
+      state.success = false;
+    },
+    resetRegisterState(state) {
+      state.loading = false;
+      state.error = null;
       state.success = false;
     }
   }
 });
-export const { registerRequest, registerSuccess, registerFailure } =
-  registerSlice.actions;
+export const {
+  registerRequest,
+  registerSuccess,
+  registerFailure,
+  resetRegisterState
+} = registerSlice.actions;
 
 export default registerSlice.reducer;
